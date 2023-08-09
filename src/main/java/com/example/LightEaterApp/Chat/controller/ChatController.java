@@ -2,11 +2,11 @@ package com.example.LightEaterApp.Chat.controller;
 
 
 
-import com.example.LightEaterApp.Chat.dto.ChatResponseBodyDTO;
-import com.example.LightEaterApp.Chat.dto.ChatUploadDTO;
+import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
+import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 
 
-import com.example.LightEaterApp.Chat.dto.ResponseDTO;
+import com.example.LightEaterApp.Chat.dto.response.ResponseDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.URIEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
@@ -16,16 +16,15 @@ import com.example.LightEaterApp.Chat.service.FlaskService;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -44,27 +43,35 @@ public class ChatController {
     @PostMapping("/img")
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
-            @RequestBody ChatUploadDTO chatUploadDTO) {
+            @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
         try {
+            Date chatDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+            String formattedDate = dateFormat.format(chatDate);
+            log.info("date:{}",formattedDate);
 
 
 
+            //!!이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
+            String temporaryUserId = "userId";
 
-            String temporaryUserId = "userId";             //이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
+            //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
+            ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
+            UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
-
-            ChatEntity chatEntity = ChatUploadDTO.toChatEntity(chatUploadDTO);
-            UserEntity userEntity = ChatUploadDTO.toUserEntity(chatUploadDTO);
-
-            //userEntity의 userEmail, name없음
+            //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
 
             chatEntity.setUserId(temporaryUserId);
-            chatEntity.setChatDate(new Date());
-            userEntity.setUserId(temporaryUserId);
-            //임의설정
+            chatEntity.setChatDate(formattedDate);
+
+
+            //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
             chatEntity.setResultNum((int) (Math.random()*100));
+            //!!여기는 userEntity에서 가져올 값
+            userEntity.setUserId(temporaryUserId);
             userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
             userEntity.setName("사현희");
+            //!!현재 임의생성 추후 삭제
             float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
             float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
 
@@ -84,7 +91,9 @@ public class ChatController {
 
 
  */
-            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);         //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
+            //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
+            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
+            //!!로그인&자가진단 구현시 삭제될 부분
             List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
 
@@ -107,8 +116,8 @@ public class ChatController {
 
 
 
-            ChatUploadDTO chatUploadDTO1 = new ChatUploadDTO(chatEntity, userEntity);
-            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadDTO1);
+            ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity, userEntity);
+            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -126,7 +135,7 @@ public class ChatController {
 
 
  /*
-
+            //이부분은 리스트로 보내줄시 사용 -> 현재는 리스트가 아닌 한 채팅에 대해서만 보내주는 중
             List<ChatUploadDTO> dtos = chatEntities.stream()
                     .map(entity -> new ChatUploadDTO(chatEntity, null))
                     .collect(Collectors.toList());
@@ -151,7 +160,7 @@ public class ChatController {
 
 */
 
-            ResponseDTO response = ResponseDTO.<ChatUploadDTO>builder()
+            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .data(resoponsebodyDTO)
                     .build();
 
@@ -159,7 +168,7 @@ public class ChatController {
             return ResponseEntity.ok().body(response);
         } catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
             String error = e.getMessage();
-            ResponseDTO response = ResponseDTO.<ChatUploadDTO>builder()
+            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .error(error).build();
 
             return ResponseEntity.badRequest().body(response);
@@ -172,25 +181,32 @@ public class ChatController {
     @PostMapping("/file")
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
-            @RequestBody ChatUploadDTO chatUploadDTO) {
+            @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
         try {
 
+            Date chatDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+            String formattedDate = dateFormat.format(chatDate);
+            log.info("date:{}",formattedDate);
 
 
 
             String temporaryUserId = "userId";             //이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
 
 
-            ChatEntity chatEntity = ChatUploadDTO.toChatEntity(chatUploadDTO);
-            UserEntity userEntity = ChatUploadDTO.toUserEntity(chatUploadDTO);
+            ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
+            UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //userEntity의 userEmail, name없음
+            userEntity.setUserId(null);
 
             chatEntity.setUserId(temporaryUserId);
-            chatEntity.setChatDate(new Date());
-            userEntity.setUserId(temporaryUserId);
+            chatEntity.setChatDate(formattedDate);
+
             //임의설정
             chatEntity.setResultNum((int) (Math.random()*100));
+
+            userEntity.setUserId(temporaryUserId);
             userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
             userEntity.setName("사현희");
             float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
@@ -211,10 +227,11 @@ public class ChatController {
             entity.setResultNum(resultnum);
 
 
- */
-            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);         //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
+ */         //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
+            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
+            log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
             List<UserEntity> userEntities = userService.createUserEntity(userEntity);
-
+            log.info("챗 컨트롤러 userEntities:{}",userEntities);
 
             URI fileUri = chatEntity.getChatData();
 
@@ -232,8 +249,8 @@ public class ChatController {
 
 
 
-           ChatUploadDTO chatUploadDTO1 = new ChatUploadDTO(chatEntity, userEntity);
-            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadDTO1);
+           ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity, userEntity);
+            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -276,7 +293,7 @@ public class ChatController {
 
 */
 
-            ResponseDTO response = ResponseDTO.<ChatUploadDTO>builder()
+            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .data(resoponsebodyDTO)
                     .build();
 
@@ -284,7 +301,7 @@ public class ChatController {
             return ResponseEntity.ok().body(response);
         } catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
             String error = e.getMessage();
-            ResponseDTO response = ResponseDTO.<ChatUploadDTO>builder()
+            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .error(error).build();
 
             return ResponseEntity.badRequest().body(response);

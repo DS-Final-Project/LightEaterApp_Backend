@@ -1,4 +1,4 @@
-package com.example.LightEaterApp.Chat.dto;
+package com.example.LightEaterApp.Chat.dto.chat;
 
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
@@ -8,13 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.net.URI;
-import java.util.Date;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ChatUploadDTO {
+public class ChatUploadRequestBodyDTO {
     //!!!!!!!임시 테스트용 !!!!!!!!//
     private URI chatData;
 
@@ -42,7 +41,7 @@ public class ChatUploadDTO {
 
 //의심문장 12345추가
 
-    public ChatUploadDTO(final ChatEntity chatEntity,UserEntity userEntity) {
+    public ChatUploadRequestBodyDTO(final ChatEntity chatEntity, UserEntity userEntity) {
         //!!!!!!!임시!!!!!!!//
         this.chatData = chatEntity.getChatData();
 
@@ -68,7 +67,7 @@ public class ChatUploadDTO {
 
 
 
-    public ChatUploadDTO(final ChatEntity chatEntity) {
+    public ChatUploadRequestBodyDTO(final ChatEntity chatEntity) {
         //!!!!!!!임시!!!!!!!//
         this.chatData = chatEntity.getChatData();
 
@@ -86,7 +85,7 @@ public class ChatUploadDTO {
 
          */
     }
-    public ChatUploadDTO(final UserEntity userEntity) {
+    public ChatUploadRequestBodyDTO(final UserEntity userEntity) {
         //!!!!!!!임시!!!!!!!//
         /*
         this.chatWords = chatEntity.getChatWords();
@@ -106,7 +105,7 @@ public class ChatUploadDTO {
     }
 
     //DTO를 받아서 저장
-    public static ChatEntity toChatEntity(final ChatUploadDTO dto) {
+    public static ChatEntity toChatEntity(final ChatUploadRequestBodyDTO dto) {
         return ChatEntity.builder()
                 .chatData(dto.getChatData())
                 //.chatId(dto.getChatId())
@@ -119,7 +118,7 @@ public class ChatUploadDTO {
                 .build();
     }
 
-    public static UserEntity toUserEntity(final ChatUploadDTO dto) {
+    public static UserEntity toUserEntity(final ChatUploadRequestBodyDTO dto) {
         return UserEntity.builder()
                 //.userId(dto.getUserId())
                 .avoidScore(dto.getAvoidScore())
@@ -127,8 +126,8 @@ public class ChatUploadDTO {
                 .build();
     }
     // ChatResponseBodyDTO로 매핑하는 메서드 추가
-    public ChatResponseBodyDTO toChatResponseBodyDTO(final ChatUploadDTO chatUploadDTO) {
-        ChatResponseBodyDTO chatResponseBodyDTO = new ChatResponseBodyDTO(chatUploadDTO);
+    public ChatResponseBodyDTO toChatResponseBodyDTO(final ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
+        ChatResponseBodyDTO chatResponseBodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO);
 
         return chatResponseBodyDTO;
     }

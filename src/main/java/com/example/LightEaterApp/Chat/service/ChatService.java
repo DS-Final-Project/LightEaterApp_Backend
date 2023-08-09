@@ -70,6 +70,13 @@ public class ChatService {
 
 
     }
+    public List<ChatEntity> retrieveByUserID(final String userId) {
+
+        //validate(entity);
+
+        return repository.findByUserId(userId);
+    }
+    /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {
 
         validate(entity);
@@ -78,6 +85,8 @@ public class ChatService {
     }
 
 
+
+     */
     private void validate(final ChatEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null.");

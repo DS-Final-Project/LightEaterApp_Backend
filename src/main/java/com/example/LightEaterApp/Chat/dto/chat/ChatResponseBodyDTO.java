@@ -1,7 +1,5 @@
-package com.example.LightEaterApp.Chat.dto;
+package com.example.LightEaterApp.Chat.dto.chat;
 
-import com.example.LightEaterApp.Chat.model.ChatEntity;
-import com.example.LightEaterApp.Chat.model.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +20,11 @@ public class ChatResponseBodyDTO {
     private String doubtText4;
     private String doubtText5;
 
-    public ChatResponseBodyDTO (final ChatUploadDTO chatUploadDTO) {
-        this.resultNum = chatUploadDTO.getResultNum();
-        this.avoidScore = chatUploadDTO.getAvoidScore();
-        this.anxietyScore = chatUploadDTO.getAnxietyScore();
-        this.testType = chatUploadDTO.getTestType();
+    public ChatResponseBodyDTO (final ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
+        this.resultNum = chatUploadRequestBodyDTO.getResultNum();
+        this.avoidScore = chatUploadRequestBodyDTO.getAvoidScore();
+        this.anxietyScore = chatUploadRequestBodyDTO.getAnxietyScore();
+        this.testType = chatUploadRequestBodyDTO.getTestType();
         this.doubtText1 ="doubtText1";
         this.doubtText2 ="doubtText2";
         this.doubtText3 ="doubtText3";

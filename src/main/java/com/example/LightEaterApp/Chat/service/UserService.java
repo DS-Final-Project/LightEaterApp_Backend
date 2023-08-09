@@ -45,15 +45,20 @@ public class UserService {
 
 
     }
+    public List<UserEntity> retrieveByUserId(final String userId) {
 
 
+        return repository.findByUserId(userId);
+    }
+
+/*
     public List<UserEntity> retrieve(final UserEntity entity) {
 
         validate(entity);
 
         return repository.findByUserId(entity.getUserId());
     }
-
+*/
 
     private void validate(final UserEntity entity) {
         if(entity == null) {
