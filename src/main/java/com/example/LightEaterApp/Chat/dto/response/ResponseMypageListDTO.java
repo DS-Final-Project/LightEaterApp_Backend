@@ -1,4 +1,4 @@
-package com.example.LightEaterApp.Chat.dto;
+package com.example.LightEaterApp.Chat.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ResponseListDTO<T> {
+public class ResponseMypageListDTO<T> {
     private String error;                   //에러메세지를 보내줌
+    private String name;
 
     private List<T> data;
 }

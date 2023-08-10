@@ -37,7 +37,7 @@ public class ChatEntity {
     //여기서 부터 엔티티 수정 2023-07-26
     private int relation;
     private String chatText;
-    private Date chatDate;
+    private String chatDate;
     //private String doubtSentence;
 
 

@@ -1,5 +1,4 @@
 package com.example.LightEaterApp.Chat.dto.test;
-
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

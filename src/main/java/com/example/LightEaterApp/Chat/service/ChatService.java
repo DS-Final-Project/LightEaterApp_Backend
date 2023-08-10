@@ -17,26 +17,26 @@ public class ChatService {
     public List<ChatEntity> createChatEntity(final ChatEntity entity) {
 
         validate(entity);
-            if(entity == null) {
-                log.warn("Entity cannot be null.");
-                throw new RuntimeException("Entity cannot be null.");
-            }
+        if(entity == null) {
+            log.warn("Entity cannot be null.");
+            throw new RuntimeException("Entity cannot be null.");
+        }
 
-            if(entity.getUserId() == null) {
-                log.warn("Unknown user.");
-                throw new RuntimeException("Unknown user.");
-            }
+        if(entity.getUserId() == null) {
+            log.warn("Unknown user.");
+            throw new RuntimeException("Unknown user.");
+        }
 
-            repository.save(entity);
+        repository.save(entity);
 
-            log.info("Entity chatId: {} is saved.", entity.getChatId());
-            log.info("Entity chatWords: {} is saved.", entity.getChatData());
-            log.info("Entity status: {} is saved.", entity.getResultNum());
-            log.info("Entity status: {} is saved.", entity.getChatDate());
-            log.info("relation:{}", entity.getRelation());
+        log.info("Entity chatId: {} is saved.", entity.getChatId());
+        log.info("Entity chatWords: {} is saved.", entity.getChatData());
+        log.info("Entity status: {} is saved.", entity.getResultNum());
+        log.info("Entity status: {} is saved.", entity.getChatDate());
+        log.info("relation:{}", entity.getRelation());
 
 
-            return repository.findByUserId(entity.getUserId());
+        return repository.findByUserId(entity.getUserId());
 
 
 
@@ -70,6 +70,13 @@ public class ChatService {
 
 
     }
+    public List<ChatEntity> retrieveByUserID(final String userId) {
+
+        //validate(entity);
+
+        return repository.findByUserId(userId);
+    }
+    /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {
 
         validate(entity);
@@ -78,6 +85,8 @@ public class ChatService {
     }
 
 
+
+     */
     private void validate(final ChatEntity entity) {
         if(entity == null) {
             log.warn("Entity cannot be null.");
@@ -90,4 +99,3 @@ public class ChatService {
 
 
 }
-

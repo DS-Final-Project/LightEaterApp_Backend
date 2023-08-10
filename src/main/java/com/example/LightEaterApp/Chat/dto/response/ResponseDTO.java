@@ -1,11 +1,11 @@
-package com.example.LightEaterApp.Chat.dto;
+package com.example.LightEaterApp.Chat.dto.response;
 
+
+import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -17,5 +17,3 @@ public class ResponseDTO {
 
     private ChatResponseBodyDTO data;
 }
-
-

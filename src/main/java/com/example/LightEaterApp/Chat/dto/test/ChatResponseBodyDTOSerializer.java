@@ -1,4 +1,4 @@
-package com.example.LightEaterApp.Chat.dto;
+package com.example.LightEaterApp.Chat.dto.test;
 
 /*
 import com.fasterxml.jackson.core.JsonGenerator;
