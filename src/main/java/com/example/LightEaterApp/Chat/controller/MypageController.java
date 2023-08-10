@@ -41,24 +41,36 @@ public class MypageController {
             log.info("chatEntities{}",chatEntities);
             List<UserEntity> userEntities = userService.retrieveByUserId(temporaryUserId);
             log.info("userEntities{}",userEntities);
+            if(chatEntities.size() == 0){
+                //나중에 userEntity userId로 검색해서 이름 받아서 저장
+                String name = "사현희";
 
-            //나중에 userEntity생성하면 리스트로 받을 필요없음 userId 가 Pk값일거기 때문에
-            List<String> names = userEntities.stream()
-                    .map(UserEntity::getName)
-                    .collect(Collectors.toList());
-            log.info("names{}",names);
-            String name = names.get(0);
+                ResponseMypageListDTO<MypageResponseBodyDTO> response = ResponseMypageListDTO.<MypageResponseBodyDTO>builder()
+                        .name(name)
+                        .data(null)
+                        .build();
+                return ResponseEntity.ok().body(response);
+            }
+            else {
+                //나중에 userEntity생성하면 리스트로 받을 필요없음 userId 가 Pk값일거기 때문에
+                List<String> names = userEntities.stream()
+                        .map(UserEntity::getName)
+                        .collect(Collectors.toList());
+                log.info("names{}", names);
+                String name = names.get(0);
 
 
-            List<MypageResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(chatEntity -> new MypageResponseBodyDTO(chatEntity))
-                    .collect(Collectors.toList());
+                List<MypageResponseBodyDTO> dtos = chatEntities.stream()
+                        .map(chatEntity -> new MypageResponseBodyDTO(chatEntity))
+                        .collect(Collectors.toList());
 
-            ResponseMypageListDTO<MypageResponseBodyDTO> response = ResponseMypageListDTO.<MypageResponseBodyDTO>builder()
-                    .name(name)
-                    .data(dtos)
-                    .build();
-            return ResponseEntity.ok().body(response);
+                ResponseMypageListDTO<MypageResponseBodyDTO> response = ResponseMypageListDTO.<MypageResponseBodyDTO>builder()
+                        .name(name)
+                        .data(dtos)
+                        .build();
+                return ResponseEntity.ok().body(response);
+            }
+
         }
         catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
             String error = e.getMessage();
