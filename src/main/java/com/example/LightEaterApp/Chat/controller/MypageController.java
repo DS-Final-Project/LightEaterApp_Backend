@@ -41,7 +41,8 @@ public class MypageController {
             log.info("chatEntities{}",chatEntities);
             List<UserEntity> userEntities = userService.retrieveByUserId(temporaryUserId);
             log.info("userEntities{}",userEntities);
-            //chatentity가 없는 경우에 이름만 리턴
+
+            //chatentity가 없는 경우에 date는 null, name만 리턴
             if(chatEntities.size() == 0){
                 //나중에 userEntity userId로 검색해서 이름 받아서 저장
                 String name = "사현희";

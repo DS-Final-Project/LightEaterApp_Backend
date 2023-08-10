@@ -32,11 +32,11 @@ public class UserService {
         repository.save(entity);
 
         log.info("Entity userId: {} is saved.", entity.getUserId());
-        log.info("Entity userId: {} is saved.", entity.getUserEmail());
-        log.info("Entity userId: {} is saved.", entity.getName());
-        log.info("Entity userId: {} is saved.", entity.getAvoidScore());
-        log.info("Entity userId: {} is saved.", entity.getAnxietyScore());
-        log.info("Entity userId: {} is saved.", entity.getTestType());
+        log.info("Entity userEmail: {} is saved.", entity.getUserEmail());
+        log.info("Entity name: {} is saved.", entity.getName());
+        log.info("Entity avoidscore: {} is saved.", entity.getAvoidScore());
+        log.info("Entity anxietyscore: {} is saved.", entity.getAnxietyScore());
+        log.info("Entity testType: {} is saved.", entity.getTestType());
 
 
         return repository.findByName(entity.getName());

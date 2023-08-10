@@ -31,8 +31,8 @@ public class ChatService {
 
         log.info("Entity chatId: {} is saved.", entity.getChatId());
         log.info("Entity chatWords: {} is saved.", entity.getChatData());
-        log.info("Entity status: {} is saved.", entity.getResultNum());
-        log.info("Entity status: {} is saved.", entity.getChatDate());
+        log.info("Entity resultnum: {} is saved.", entity.getResultNum());
+        log.info("Entity date: {} is saved.", entity.getChatDate());
         log.info("relation:{}", entity.getRelation());
 
 
@@ -60,8 +60,8 @@ public class ChatService {
 
         log.info("Entity chatId: {} is saved.", entity.getChatId());
         log.info("Entity chatWords: {} is saved.", entity.getChatData());
-        log.info("Entity status: {} is saved.", entity.getResultNum());
-        log.info("Entity status: {} is saved.", entity.getChatDate());
+        log.info("Entity resultnum: {} is saved.", entity.getResultNum());
+        log.info("Entity chatdate: {} is saved.", entity.getChatDate());
 
 
         return repository.findByChatId(entity.getChatId());
