@@ -4,6 +4,7 @@ package com.example.LightEaterApp.Chat.service;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 
 import com.example.LightEaterApp.Chat.persistence.UserRepository;
+import com.example.LightEaterApp.Chat.persistence.UserRepositoryByEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private UserRepositoryByEntity userRepositoryByEntity;
 
     public List<UserEntity> createUserEntity(final UserEntity entity) {
 
@@ -49,6 +52,9 @@ public class UserService {
 
 
         return repository.findByUserId(userId);
+    }
+    public UserEntity retrieveByUserIdByEntity(final String userId) {
+        return userRepositoryByEntity.findByUserId(userId);
     }
 
 /*
