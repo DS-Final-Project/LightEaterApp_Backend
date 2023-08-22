@@ -2,6 +2,7 @@ package com.example.LightEaterApp.Chat.service;
 
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.persistence.ChatRepository;
+import com.example.LightEaterApp.Chat.persistence.ChatRepositoryByEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import java.util.List;
 public class ChatService {
     @Autowired
     private ChatRepository repository;
+    @Autowired
+    private ChatRepositoryByEntity chatRepositoryByEntity;
 
     public List<ChatEntity> createChatEntity(final ChatEntity entity) {
 
@@ -76,6 +79,19 @@ public class ChatService {
 
         return repository.findByUserId(userId);
     }
+    public List<ChatEntity> retrieveByChatID(final String chatId) {
+
+        //validate(entity);
+
+        return repository.findByChatId(chatId);
+    }
+    public ChatEntity retrieveByChatIDByEntity(final String chatId) {
+
+        //validate(entity);
+
+        return chatRepositoryByEntity.findByChatId(chatId);
+    }
+
     /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {
 

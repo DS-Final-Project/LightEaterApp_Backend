@@ -2,8 +2,9 @@ package com.example.LightEaterApp.Chat.controller;
 
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 import com.example.LightEaterApp.Chat.dto.mypage.MypageResponseBodyDTO;
-import com.example.LightEaterApp.Chat.dto.response.ResponseDTO;
-import com.example.LightEaterApp.Chat.dto.response.ResponseListDTO;
+import com.example.LightEaterApp.Chat.dto.mypage.PreviousMypageResponsebodyDTO;
+import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
+import com.example.LightEaterApp.Chat.dto.response.MypageResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ResponseMypageListDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
@@ -12,10 +13,7 @@ import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +27,33 @@ public class MypageController {
     @Autowired
     UserService userService;
 
+    @GetMapping("/chatResult/{chatId}")
+    public ResponseEntity<?> getPreviousMypage(
+            @PathVariable("chatId") String requestChatId)
+    {
+        try {
+            String temporaryUserId = "userId";
+            String chatId = requestChatId;
+
+            ChatEntity chatEntity = chatService.retrieveByChatIDByEntity(chatId);
+            UserEntity userEntity = userService.retrieveByUserIdByEntity(temporaryUserId);
+
+            PreviousMypageResponsebodyDTO dto = new PreviousMypageResponsebodyDTO(chatEntity,userEntity);
+
+            MypageResponseDTO response = MypageResponseDTO.<MypageResponseBodyDTO>builder()
+                    .data(dto)
+                    .build();
+            return ResponseEntity.ok().body(response);
+        }
+        catch(Exception e) {
+            String error = e.getMessage();
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
+                    .error(error).build();
+
+            return ResponseEntity.badRequest().body(response);
+
+        }
+    }
     @GetMapping
     public ResponseEntity<?> getMypage(
             //@AuthenticationPrincipal String userId
@@ -76,7 +101,7 @@ public class MypageController {
         }
         catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
             String error = e.getMessage();
-            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .error(error).build();
 
             return ResponseEntity.badRequest().body(response);

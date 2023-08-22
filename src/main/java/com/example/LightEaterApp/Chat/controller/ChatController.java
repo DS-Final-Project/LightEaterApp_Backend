@@ -6,7 +6,7 @@ import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 
 
-import com.example.LightEaterApp.Chat.dto.response.ResponseDTO;
+import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.URIEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
@@ -160,7 +160,7 @@ public class ChatController {
 
 */
 
-            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .data(resoponsebodyDTO)
                     .build();
 
@@ -168,7 +168,7 @@ public class ChatController {
             return ResponseEntity.ok().body(response);
         } catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
             String error = e.getMessage();
-            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .error(error).build();
 
             return ResponseEntity.badRequest().body(response);
@@ -293,7 +293,7 @@ public class ChatController {
 
 */
 
-            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .data(resoponsebodyDTO)
                     .build();
 
@@ -301,7 +301,7 @@ public class ChatController {
             return ResponseEntity.ok().body(response);
         } catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
             String error = e.getMessage();
-            ResponseDTO response = ResponseDTO.<ChatUploadRequestBodyDTO>builder()
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .error(error).build();
 
             return ResponseEntity.badRequest().body(response);
