@@ -17,6 +17,7 @@ public class PreviousMypageResponsebodyDTO {
     private float avoidScore;
     private float anxietyScore;
     private int testType;
+    private int relation;
     private String doubtText1;
     private String doubtText2;
     private String doubtText3;
@@ -28,6 +29,7 @@ public class PreviousMypageResponsebodyDTO {
         this.avoidScore = userEntity.getAvoidScore();
         this.anxietyScore = userEntity.getAnxietyScore();
         this.testType = userEntity.getTestType();
+        this.relation = chatEntity.getRelation();
         this.doubtText1 ="doubtText1";
         this.doubtText2 ="doubtText2";
         this.doubtText3 ="doubtText3";
