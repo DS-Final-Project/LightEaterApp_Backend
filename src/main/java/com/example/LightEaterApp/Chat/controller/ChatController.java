@@ -67,8 +67,6 @@ public class ChatController {
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
             chatEntity.setResultNum((int) (Math.random()*100));
-            //relation임의 설정, 자가진단으로 수정 필요
-            chatEntity.setRelation(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
             //!!여기는 userEntity에서 가져올 값
             userEntity.setUserId(temporaryUserId);
             userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
@@ -80,8 +78,6 @@ public class ChatController {
             userEntity.setAnxietyScore(random1);
             userEntity.setAvoidScore(random2);
             userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
-
-
 
 
 
@@ -244,7 +240,7 @@ public class ChatController {
                 uriEntity.setUri(fileUri);
                 uriRepository.save(uriEntity);
                 log.info("File URI saved successfully.");
-               // return ResponseEntity.ok("File URI saved successfully.");
+                // return ResponseEntity.ok("File URI saved successfully.");
             } catch (Exception e) {
                 log.info("Failed to save file URI: "+ e.getMessage());
                 //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
@@ -253,7 +249,7 @@ public class ChatController {
 
 
 
-           ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity, userEntity);
+            ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity, userEntity);
             ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
 
 /*
@@ -586,6 +582,4 @@ public class ChatController {
         return ResponseEntity.ok().body(response);
     }*/
 
-        }
-
-
+}

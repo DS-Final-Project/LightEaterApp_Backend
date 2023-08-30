@@ -25,9 +25,9 @@ public class ChatUploadRequestBodyDTO {
     //나중에 chatWords 대체
     //private String chatText;
     //private Date chatDate;
-    
+
     //private String doubtSentence;
-    
+
 
     private float avoidScore;
     private float anxietyScore;
@@ -76,7 +76,7 @@ public class ChatUploadRequestBodyDTO {
         this.resultNum = chatEntity.getResultNum();
         this.relation = chatEntity.getRelation();
         //this.chatText = chatEntity.getChatText();
-       // this.chatDate = chatEntity.getChatDate();
+        // this.chatDate = chatEntity.getChatDate();
         //this.doubtSentence = chatEntity.getDoubtSentence();
         /*
         this.avoidScore = userEntity.getAvoidScore();
@@ -132,4 +132,3 @@ public class ChatUploadRequestBodyDTO {
         return chatResponseBodyDTO;
     }
 }
-
