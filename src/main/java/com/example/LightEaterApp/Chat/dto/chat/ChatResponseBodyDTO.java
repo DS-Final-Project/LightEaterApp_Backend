@@ -14,6 +14,7 @@ public class ChatResponseBodyDTO {
     private float avoidScore;
     private float anxietyScore;
     private int testType;
+    private int relation;
     private String doubtText1;
     private String doubtText2;
     private String doubtText3;
@@ -25,6 +26,7 @@ public class ChatResponseBodyDTO {
         this.avoidScore = chatUploadRequestBodyDTO.getAvoidScore();
         this.anxietyScore = chatUploadRequestBodyDTO.getAnxietyScore();
         this.testType = chatUploadRequestBodyDTO.getTestType();
+        this.relation = chatUploadRequestBodyDTO.getRelation();
         this.doubtText1 ="doubtText1";
         this.doubtText2 ="doubtText2";
         this.doubtText3 ="doubtText3";
