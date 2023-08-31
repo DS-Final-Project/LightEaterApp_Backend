@@ -7,6 +7,7 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +36,10 @@ public class UserController {
             userEntity.setName("사현희");
 
             List<UserEntity> userEntities = userService.createUserEntity(userEntity);
+            HttpStatus status = HttpStatus.OK;
 
             log.info("연동 성공");
-            return ResponseEntity.ok().body(null);
+            return ResponseEntity.ok().body(status);
 
         }
 
