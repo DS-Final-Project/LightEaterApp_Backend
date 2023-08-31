@@ -45,6 +45,7 @@ public class UserController {
 
 
 
+
      catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
         String error = e.getMessage();
 
