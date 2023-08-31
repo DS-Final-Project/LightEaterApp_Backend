@@ -3,6 +3,7 @@ package com.example.LightEaterApp.Chat.controller;
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.dto.user.SelftestRequestBodyDTO;
+import com.example.LightEaterApp.Chat.dto.user.SelftestResponseBodyDTO;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +37,13 @@ public class UserController {
             userEntity.setName("사현희");
 
             List<UserEntity> userEntities = userService.createUserEntity(userEntity);
-            HttpStatus status = HttpStatus.OK;
+
+            SelftestResponseBodyDTO response =  SelftestResponseBodyDTO.<ChatUploadRequestBodyDTO>builder()
+                    .build();
+
 
             log.info("연동 성공");
-            return ResponseEntity.ok().body(status);
+            return ResponseEntity.ok().body(response);
 
         }
 
