@@ -50,8 +50,8 @@ public class ChatController {
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
 
-
-
+//
+            
             //!!이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
             String temporaryUserId = "userId";
 
