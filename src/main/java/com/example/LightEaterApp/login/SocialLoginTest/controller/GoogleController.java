@@ -111,7 +111,8 @@ public class GoogleController {
                 userEntity.setUserId(null);
                 userEntity.setUserId(jwtToken);
                 userEntity.setName(userInfoDto.getName());
-                userEntity.setUserEmail(userEntity.getUserEmail());
+                userEntity.setUserEmail(userInfoDto.getEmail());
+                log.info("userEntity:{}",userEntity.toString());
                 List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
                 String aaaa ="test";
