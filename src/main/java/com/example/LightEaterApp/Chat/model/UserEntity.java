@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Builder
 @NoArgsConstructor
@@ -19,10 +16,9 @@ import javax.persistence.Table;
 @Table(name="UserTable")
 public class UserEntity {
     @Id
-    //@GeneratedValue(generator = "system-uuid")
-    //@GenericGenerator(name="system-uuid", strategy = "uuid")
-    //로그인이후에 userEntity생성 만들면 temporaryId삭제
-    private String temporaryId;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Column(length = 500)
     private String userId;
     private String userEmail;
     private String name;

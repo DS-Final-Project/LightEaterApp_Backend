@@ -107,6 +107,7 @@ public class GoogleController {
                 GoogleLoginDTO userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDTO>() {});
 
                 UserEntity userEntity = new UserEntity();
+                userEntity.setUserId(null);
                 userEntity.setUserId(jwtToken);
                 userEntity.setName(userInfoDto.getName());
                 userEntity.setUserEmail(userEntity.getUserEmail());
