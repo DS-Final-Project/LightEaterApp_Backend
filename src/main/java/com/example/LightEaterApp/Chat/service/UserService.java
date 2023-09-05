@@ -48,6 +48,11 @@ public class UserService {
 
 
     }
+    public UserEntity retrieveByUserEmail(final String email) {
+
+
+        return userRepositoryByEntity.findByUserEmail(email);
+    }
     public List<UserEntity> retrieveByUserId(final String userId) {
 
 

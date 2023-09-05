@@ -23,9 +23,9 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/post")
-    public ResponseEntity<?> selftestResult(@RequestHeader("jwtToken") String jwtToken, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
+    public ResponseEntity<?> selftestResult(@RequestHeader("email") String email, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
         try {
-            UserEntity userEntity = userService.retrieveByUserIdByEntity(jwtToken);
+            UserEntity userEntity = userService.retrieveByUserEmail(email);
             userEntity.setAvoidScore(selftestRequestBodyDTO.getAvoidScore());
             userEntity.setAnxietyScore(selftestRequestBodyDTO.getAnxietyScore());
             userEntity.setTestType(selftestRequestBodyDTO.getTestType());

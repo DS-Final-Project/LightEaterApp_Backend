@@ -19,7 +19,7 @@ public class ChatUploadRequestBodyDTO {
 
     //private String chatId;
     //private String userId;
-    private int resultNum;
+    //private int resultNum;
     private int relation;
 
     //나중에 chatWords 대체
@@ -28,7 +28,7 @@ public class ChatUploadRequestBodyDTO {
 
     //private String doubtSentence;
 
-
+/*
     private float avoidScore;
     private float anxietyScore;
     private int testType;
@@ -39,6 +39,8 @@ public class ChatUploadRequestBodyDTO {
     private String doubtText5;
 
 
+
+ */
 //의심문장 12345추가
 
     public ChatUploadRequestBodyDTO(final ChatEntity chatEntity, UserEntity userEntity) {
@@ -47,12 +49,12 @@ public class ChatUploadRequestBodyDTO {
 
         //this.chatId = chatEntity.getChatId();
         //this.userId = chatEntity.getUserId();
-        this.resultNum = chatEntity.getResultNum();
+        //this.resultNum = chatEntity.getResultNum();
         this.relation = chatEntity.getRelation();
         //this.chatText = chatEntity.getChatText();
         //this.chatDate = chatEntity.getChatDate();
         //this.doubtSentence = chatEntity.getDoubtSentence();
-
+/*
         this.avoidScore = userEntity.getAvoidScore();
         this.anxietyScore = userEntity.getAnxietyScore();
         this.testType = userEntity.getTestType();
@@ -62,6 +64,8 @@ public class ChatUploadRequestBodyDTO {
         this.doubtText4 ="doubtText4";
         this.doubtText5 ="doubtText5";
 
+
+ */
 
     }
 
@@ -73,7 +77,7 @@ public class ChatUploadRequestBodyDTO {
 
         //this.chatId = chatEntity.getChatId();
         //this.userId = chatEntity.getUserId();
-        this.resultNum = chatEntity.getResultNum();
+        //this.resultNum = chatEntity.getResultNum();
         this.relation = chatEntity.getRelation();
         //this.chatText = chatEntity.getChatText();
         // this.chatDate = chatEntity.getChatDate();
@@ -98,10 +102,12 @@ public class ChatUploadRequestBodyDTO {
         this.chatDate = chatEntity.getChatDate();
         //this.doubtSentence = chatEntity.getDoubtSentence();
 
-         */
+
         this.avoidScore = userEntity.getAvoidScore();
         this.anxietyScore = userEntity.getAnxietyScore();
         this.testType = userEntity.getTestType();
+
+         */
     }
 
     //DTO를 받아서 저장
@@ -110,7 +116,7 @@ public class ChatUploadRequestBodyDTO {
                 .chatData(dto.getChatData())
                 //.chatId(dto.getChatId())
                 //.userId(dto.getUserId())
-                .resultNum(dto.getResultNum())
+                //.resultNum(dto.getResultNum())
                 .relation(dto.getRelation())
                 //.chatText(dto.getChatText())
                 //.chatDate(dto.getChatDate())
@@ -121,8 +127,8 @@ public class ChatUploadRequestBodyDTO {
     public static UserEntity toUserEntity(final ChatUploadRequestBodyDTO dto) {
         return UserEntity.builder()
                 //.userId(dto.getUserId())
-                .avoidScore(dto.getAvoidScore())
-                .anxietyScore(dto.getAnxietyScore())
+                //.avoidScore(dto.getAvoidScore())
+                //.anxietyScore(dto.getAnxietyScore())
                 .build();
     }
     // ChatResponseBodyDTO로 매핑하는 메서드 추가

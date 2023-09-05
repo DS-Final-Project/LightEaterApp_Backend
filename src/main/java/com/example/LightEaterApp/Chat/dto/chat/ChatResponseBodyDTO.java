@@ -22,10 +22,10 @@ public class ChatResponseBodyDTO {
     private String doubtText5;
 
     public ChatResponseBodyDTO (final ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
-        this.resultNum = chatUploadRequestBodyDTO.getResultNum();
-        this.avoidScore = chatUploadRequestBodyDTO.getAvoidScore();
-        this.anxietyScore = chatUploadRequestBodyDTO.getAnxietyScore();
-        this.testType = chatUploadRequestBodyDTO.getTestType();
+        //this.resultNum = chatUploadRequestBodyDTO.getResultNum();
+        //this.avoidScore = chatUploadRequestBodyDTO.getAvoidScore();
+        //this.anxietyScore = chatUploadRequestBodyDTO.getAnxietyScore();
+        //this.testType = chatUploadRequestBodyDTO.getTestType();
         this.relation = chatUploadRequestBodyDTO.getRelation();
         this.doubtText1 ="doubtText1";
         this.doubtText2 ="doubtText2";

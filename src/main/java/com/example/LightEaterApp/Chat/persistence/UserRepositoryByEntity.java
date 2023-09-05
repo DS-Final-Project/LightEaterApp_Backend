@@ -14,5 +14,6 @@ public interface UserRepositoryByEntity extends JpaRepository<UserEntity, String
     // List<ChatEntity> findByChatId(String chatId);
     // List<ChatEntity> findByUserId(String userId);
     UserEntity findByUserId(String userId);
+    UserEntity findByUserEmail(String email);
 
 }
