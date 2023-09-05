@@ -19,8 +19,8 @@ import javax.persistence.Table;
 @Table(name="UserTable")
 public class UserEntity {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    //@GeneratedValue(generator = "system-uuid")
+    //@GenericGenerator(name="system-uuid", strategy = "uuid")
     //로그인이후에 userEntity생성 만들면 temporaryId삭제
     private String temporaryId;
     private String userId;
