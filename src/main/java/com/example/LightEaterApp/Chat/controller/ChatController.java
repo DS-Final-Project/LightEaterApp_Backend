@@ -43,6 +43,7 @@ public class ChatController {
     @PostMapping("/img")
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
+            @RequestHeader("jwtToken") String jwtToken,
             @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
         try {
             Date chatDate = new Date();
@@ -50,10 +51,9 @@ public class ChatController {
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
 
-//
 
             //!!이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
-            String temporaryUserId = "userId";
+            //String temporaryUserId = "userId";
 
             //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
             ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
@@ -61,23 +61,28 @@ public class ChatController {
 
             //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
 
-            chatEntity.setUserId(temporaryUserId);
+            //chatEntity.setUserId(jwtToken);
             chatEntity.setChatDate(formattedDate);
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
             chatEntity.setResultNum((int) (Math.random()*100));
             //!!여기는 userEntity에서 가져올 값
-            userEntity.setUserId(temporaryUserId);
+            /*
+            userEntity.setUserId(jwtToken);
             userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
             userEntity.setName("사현희");
-            //!!현재 임의생성 추후 삭제
-            float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
-            float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
 
+             */
+            //!!현재 임의생성 추후 삭제
+            //float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
+            // float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
+/*
             userEntity.setAnxietyScore(random1);
             userEntity.setAvoidScore(random2);
             userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
+
+ */
 
 
 
@@ -94,7 +99,7 @@ public class ChatController {
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
-            List<UserEntity> userEntities = userService.createUserEntity(userEntity);
+            //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
 
             URI imageUri = chatEntity.getChatData();
@@ -181,6 +186,7 @@ public class ChatController {
     @PostMapping("/file")
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
+            @RequestHeader("jwtToken") String jwtToken,
             @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
         try {
 

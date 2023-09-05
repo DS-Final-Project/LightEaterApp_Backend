@@ -6,6 +6,7 @@ import com.example.LightEaterApp.Chat.service.UserService;
 import com.example.LightEaterApp.login.SocialLoginTest.ConfigUtils;
 import com.example.LightEaterApp.login.SocialLoginTest.dto.GoogleLoginDTO;
 import com.example.LightEaterApp.login.SocialLoginTest.dto.GoogleLoginResponse;
+import com.example.LightEaterApp.login.SocialLoginTest.dto.GoogleLoginResponseDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class GoogleController {
     }
 */
     @PostMapping(value = "/login/redirect")
-    public ResponseEntity<GoogleLoginDTO> redirectGoogleLogin(@RequestBody GoogleLoginResponse googleLoginResponse) {
+    public ResponseEntity<?> redirectGoogleLogin(@RequestBody GoogleLoginResponse googleLoginResponse) {
         // HTTP 통신을 위해 RestTemplate 활용
         RestTemplate restTemplate = new RestTemplate();
         GoogleLoginResponse requestparam = GoogleLoginResponse.builder()
@@ -118,7 +119,10 @@ public class GoogleController {
                 log.info("token:{}",jwtToken);
                 log.info("userInfoDto:{}",userInfoDto.toString());
 
-                return ResponseEntity.ok().body(null);
+                GoogleLoginResponseDTO response = GoogleLoginResponseDTO.builder()
+                        .build();
+
+                return ResponseEntity.ok().body(response);
             }
             else {
                 throw new Exception("Google OAuth failed!");
