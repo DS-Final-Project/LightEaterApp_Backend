@@ -43,6 +43,7 @@ public class ChatController {
     @PostMapping("/img")
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
+            @RequestHeader("email") String email,
             @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
         try {
             Date chatDate = new Date();
@@ -50,34 +51,54 @@ public class ChatController {
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
 
-//
 
             //!!이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
-            String temporaryUserId = "userId";
+            //String temporaryUserId = "userId";
 
             //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
             ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
-            UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
+            //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
 
-            chatEntity.setUserId(temporaryUserId);
+            chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
             chatEntity.setResultNum((int) (Math.random()*100));
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+            if (chatUploadRequestBodyDTO.getRelation()==1){
+                userEntity.setRelation1(true);
+
+            } else if (chatUploadRequestBodyDTO.getRelation()==2) {
+                userEntity.setRelation2(true);
+            }
+            else if (chatUploadRequestBodyDTO.getRelation()==3) {
+                userEntity.setRelation3(true);
+            }
+            else if (chatUploadRequestBodyDTO.getRelation()==4) {
+                userEntity.setRelation4(true);
+            }
+
+
+
             //!!여기는 userEntity에서 가져올 값
-            userEntity.setUserId(temporaryUserId);
+            /*
+            userEntity.setUserId(jwtToken);
             userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
             userEntity.setName("사현희");
-            //!!현재 임의생성 추후 삭제
-            float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
-            float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
 
+             */
+            //!!현재 임의생성 추후 삭제
+            //float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
+            // float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
+/*
             userEntity.setAnxietyScore(random1);
             userEntity.setAvoidScore(random2);
             userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
+
+ */
 
 
 
@@ -94,7 +115,7 @@ public class ChatController {
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
-            List<UserEntity> userEntities = userService.createUserEntity(userEntity);
+            //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
 
             URI imageUri = chatEntity.getChatData();
@@ -116,8 +137,11 @@ public class ChatController {
 
 
 
-            ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity, userEntity);
+            ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
             ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
+            resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
+            resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
+            resoponsebodyDTO.setTestType(userEntity.getTestType());
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -181,6 +205,7 @@ public class ChatController {
     @PostMapping("/file")
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
+            @RequestHeader("email") String email,
             @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
         try {
 
@@ -191,30 +216,44 @@ public class ChatController {
 
 
 
-            String temporaryUserId = "userId";             //이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
-
 
             ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
-            UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
+            //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //userEntity의 userEmail, name없음
-            userEntity.setUserId(null);
+            //userEntity.setUserId(null);
 
-            chatEntity.setUserId(temporaryUserId);
+            chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
 
             //임의설정
             chatEntity.setResultNum((int) (Math.random()*100));
 
-            userEntity.setUserId(temporaryUserId);
-            userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
-            userEntity.setName("사현희");
-            float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
-            float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
 
-            userEntity.setAnxietyScore(random1);
-            userEntity.setAvoidScore(random2);
-            userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
+            if (chatUploadRequestBodyDTO.getRelation()==1){
+                userEntity.setRelation1(true);
+
+            } else if (chatUploadRequestBodyDTO.getRelation()==2) {
+                userEntity.setRelation2(true);
+            }
+            else if (chatUploadRequestBodyDTO.getRelation()==3) {
+                userEntity.setRelation3(true);
+            }
+            else if (chatUploadRequestBodyDTO.getRelation()==4) {
+                userEntity.setRelation4(true);
+            }
+
+
+            //userEntity.setUserId(email);
+            //userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
+            //userEntity.setName("사현희");
+            //float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
+            //float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
+
+            //userEntity.setAnxietyScore(random1);
+            //userEntity.setAvoidScore(random2);
+            //userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
 
 
 
@@ -230,8 +269,8 @@ public class ChatController {
  */         //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
-            List<UserEntity> userEntities = userService.createUserEntity(userEntity);
-            log.info("챗 컨트롤러 userEntities:{}",userEntities);
+            //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
+            //log.info("챗 컨트롤러 userEntities:{}",userEntities);
 
             URI fileUri = chatEntity.getChatData();
 
@@ -249,8 +288,12 @@ public class ChatController {
 
 
 
-            ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity, userEntity);
+            ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
             ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
+            resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
+            resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
+            resoponsebodyDTO.setTestType(userEntity.getTestType());
+
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()

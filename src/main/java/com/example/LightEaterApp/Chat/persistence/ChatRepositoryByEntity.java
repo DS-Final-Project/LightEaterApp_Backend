@@ -12,5 +12,6 @@ public interface ChatRepositoryByEntity extends JpaRepository<ChatEntity, String
    // List<ChatEntity> findByChatId(String chatId);
    // List<ChatEntity> findByUserId(String userId);
     ChatEntity findByChatId(String chatId);
+    ChatEntity findByUserId(String userId);
 
 }

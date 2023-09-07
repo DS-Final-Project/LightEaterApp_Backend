@@ -8,7 +8,6 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +22,11 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/post")
-    public ResponseEntity<?> selftestResult(@RequestHeader("jwtToken") String jwtToken, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
+    public ResponseEntity<?> selftestResult(@RequestHeader("email") String email, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
         try {
-            UserEntity userEntity = userService.retrieveByUserIdByEntity(jwtToken);
-            userEntity.setAvoidScore(selftestRequestBodyDTO.getAvoidScore());
-            userEntity.setAnxietyScore(selftestRequestBodyDTO.getAnxietyScore());
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+            userEntity.setAvoidScore((float)(Math.floor(selftestRequestBodyDTO.getAvoidScore() * 100) / 100.0));
+            userEntity.setAnxietyScore((float)(Math.floor(selftestRequestBodyDTO.getAnxietyScore()*100)/100.0));
             userEntity.setTestType(selftestRequestBodyDTO.getTestType());
 
 

@@ -11,6 +11,7 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.ChatService;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,15 +29,15 @@ public class MypageController {
     UserService userService;
 
     @GetMapping("/chatResult/{chatId}")
-    public ResponseEntity<?> getPreviousMypage(
+    public ResponseEntity<?> getPreviousMypage(@RequestHeader("email") String email,
             @PathVariable("chatId") String requestChatId)
     {
         try {
-            String temporaryUserId = "userId";
+            //String temporaryUserId = "userId";
             String chatId = requestChatId;
 
             ChatEntity chatEntity = chatService.retrieveByChatIDByEntity(chatId);
-            UserEntity userEntity = userService.retrieveByUserIdByEntity(temporaryUserId);
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
 
             PreviousMypageResponsebodyDTO dto = new PreviousMypageResponsebodyDTO(chatEntity,userEntity);
 
@@ -56,21 +57,24 @@ public class MypageController {
     }
     @GetMapping
     public ResponseEntity<?> getMypage(
+            @RequestHeader("email") String email
             //@AuthenticationPrincipal String userId
             ) {
         try {
 
 
-            String temporaryUserId = "userId";
-            List<ChatEntity> chatEntities = chatService.retrieveByUserID(temporaryUserId);
+            //String temporaryUserId = "userId";
+            List<ChatEntity> chatEntities = chatService.retrieveByUserID(email);
             log.info("chatEntities{}",chatEntities);
-            List<UserEntity> userEntities = userService.retrieveByUserId(temporaryUserId);
+            List<UserEntity> userEntities = userService.retrieveByUserEmail(email);
             log.info("userEntities{}",userEntities);
 
             //chatentity가 없는 경우에 date는 null, name만 리턴
             if(chatEntities.size() == 0){
                 //나중에 userEntity userId로 검색해서 이름 받아서 저장
-                String name = "사현희";
+
+                UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+                String name = userEntity.getName();
 
                 ResponseMypageListDTO<MypageResponseBodyDTO> response = ResponseMypageListDTO.<MypageResponseBodyDTO>builder()
                         .name(name)
@@ -79,12 +83,17 @@ public class MypageController {
                 return ResponseEntity.ok().body(response);
             }
             else {
+                UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+                String name = userEntity.getName();
+                /*
                 //나중에 userEntity생성하면 리스트로 받을 필요없음 userId 가 Pk값일거기 때문에
                 List<String> names = userEntities.stream()
                         .map(UserEntity::getName)
                         .collect(Collectors.toList());
                 log.info("names{}", names);
                 String name = names.get(0);
+
+                 */
 
 
                 List<MypageResponseBodyDTO> dtos = chatEntities.stream()
