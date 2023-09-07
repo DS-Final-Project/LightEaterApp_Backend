@@ -8,7 +8,6 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +24,7 @@ public class UserController {
     @PostMapping("/post")
     public ResponseEntity<?> selftestResult(@RequestHeader("email") String email, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
         try {
-            UserEntity userEntity = userService.retrieveByUserEmail(email);
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
             userEntity.setAvoidScore(selftestRequestBodyDTO.getAvoidScore());
             userEntity.setAnxietyScore(selftestRequestBodyDTO.getAnxietyScore());
             userEntity.setTestType(selftestRequestBodyDTO.getTestType());

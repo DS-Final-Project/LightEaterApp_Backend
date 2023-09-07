@@ -34,12 +34,12 @@ public class UserService {
 
         repository.save(entity);
 
-        log.info("Entity userId: {} is saved.", entity.getUserId());
-        log.info("Entity userEmail: {} is saved.", entity.getUserEmail());
-        log.info("Entity name: {} is saved.", entity.getName());
-        log.info("Entity avoidscore: {} is saved.", entity.getAvoidScore());
-        log.info("Entity anxietyscore: {} is saved.", entity.getAnxietyScore());
-        log.info("Entity testType: {} is saved.", entity.getTestType());
+            log.info("Entity userId: {} is saved.", entity.getUserId());
+            log.info("Entity userEmail: {} is saved.", entity.getUserEmail());
+            log.info("Entity name: {} is saved.", entity.getName());
+            log.info("Entity avoidscore: {} is saved.", entity.getAvoidScore());
+            log.info("Entity anxietyscore: {} is saved.", entity.getAnxietyScore());
+            log.info("Entity testType: {} is saved.", entity.getTestType());
 
 
         return repository.findByName(entity.getName());
@@ -48,10 +48,16 @@ public class UserService {
 
 
     }
-    public UserEntity retrieveByUserEmail(final String email) {
+    public UserEntity retrieveByUserEmailByEntity(final String email) {
 
 
         return userRepositoryByEntity.findByUserEmail(email);
+    }
+
+    public List<UserEntity> retrieveByUserEmail(final String email) {
+
+
+        return repository.findByUserEmail(email);
     }
     public List<UserEntity> retrieveByUserId(final String userId) {
 

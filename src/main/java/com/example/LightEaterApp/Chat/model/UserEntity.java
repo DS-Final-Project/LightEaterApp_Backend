@@ -26,5 +26,10 @@ public class UserEntity {
     private float avoidScore;
     private float anxietyScore;
     private int testType;
+
+    private boolean relation1;
+    private boolean relation2;
+    private boolean relation3;
+    private boolean relation4;
     //private enum relationList{};
 }
