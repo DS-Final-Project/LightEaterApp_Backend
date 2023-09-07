@@ -25,8 +25,8 @@ public class UserController {
     public ResponseEntity<?> selftestResult(@RequestHeader("email") String email, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
         try {
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
-            userEntity.setAvoidScore(selftestRequestBodyDTO.getAvoidScore());
-            userEntity.setAnxietyScore(selftestRequestBodyDTO.getAnxietyScore());
+            userEntity.setAvoidScore((float)(Math.floor(selftestRequestBodyDTO.getAvoidScore() * 100) / 100.0));
+            userEntity.setAnxietyScore((float)(Math.floor(selftestRequestBodyDTO.getAnxietyScore()*100)/100.0));
             userEntity.setTestType(selftestRequestBodyDTO.getTestType());
 
 
