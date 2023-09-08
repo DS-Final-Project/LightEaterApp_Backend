@@ -9,6 +9,7 @@ import org.w3c.dom.Text;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Builder
@@ -18,12 +19,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name="SolutionTable")
 public class SolutionEntity {
+    @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String solutionId;
     private String keyword;
     private int relation;
     private String solutionTitle;
-    private Text solutionContent;
+    //text타입 어떻게 하는거지..
+    private String solutionContent;
 
 }

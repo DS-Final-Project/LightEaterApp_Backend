@@ -19,18 +19,9 @@ public class SolutionService {
         private SolutionRepository repository;
 
 
-        public List<SolutionEntity> createUserEntity(final SolutionEntity entity) {
+        public List<SolutionEntity> createSolutionEntity(final SolutionEntity entity) {
 
-            validate(entity);
-            if(entity == null) {
-                log.warn("Entity cannot be null.");
-                throw new RuntimeException("Entity cannot be null.");
-            }
-
-            if(entity.getSolutionId() == null) {
-                log.warn("Unknown solution.");
-                throw new RuntimeException("Unknown solution.");
-            }
+           // validate(entity);
 
             repository.save(entity);
 /*
@@ -69,8 +60,8 @@ public class SolutionService {
                 log.warn("Entity cannot be null.");
                 throw new RuntimeException(("Entity cannot be null."));
             } if(entity.getSolutionId() == null) {
-                log.warn("Unknown user.");
-                throw new RuntimeException(("Unknown user."));
+                log.warn("Unknown solution.");
+                throw new RuntimeException(("Unknown solution."));
             }
         }
 

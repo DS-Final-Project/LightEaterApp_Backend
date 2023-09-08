@@ -17,7 +17,7 @@ public class SolutionResponseDTO {
     private int relation;
     private String solutionTitle;
 
-    private Text solutionContent;
+    private String solutionContent;
 
     public SolutionResponseDTO (SolutionEntity solutionEntity){
         this.solutionId = solutionEntity.getSolutionId();
