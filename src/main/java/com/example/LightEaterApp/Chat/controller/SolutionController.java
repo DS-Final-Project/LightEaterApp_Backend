@@ -32,6 +32,7 @@ public class SolutionController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping
     public ResponseEntity<?> getSolution(
             @RequestHeader("email") String email) {
