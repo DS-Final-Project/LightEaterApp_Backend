@@ -121,7 +121,9 @@ public class SolutionController {
         log.info("relation3:{}",userEntity.isRelation3());
         log.info("relation4:{}",userEntity.isRelation4());
 
-            List<SolutionEntity> solutionEntities = new ArrayList<>();
+            //리스트가 중복적으로 쌓여서 이 부분 수정
+            List<SolutionEntity> solutionEntities =null;
+            solutionEntities  = new ArrayList<>();
         if (userEntity.isRelation1()) {
 
             solutionEntities.addAll(solutionService.retrieveByRelation(1));
@@ -143,46 +145,7 @@ public class SolutionController {
                 .map(SolutionResponseDTO::new)
                 .collect(Collectors.toList());
 
-/*
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .flatMap(chatEntity1 -> userEntities.stream().map(userEntity1 -> new ChatUploadDTO(chatEntity, userEntity)))
-                    .collect(Collectors.toList());
-/*
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .map(ChatUploadDTO::new)
-                    .collect(Collectors.toList());
 
-             dtos.addAll( userEntities.stream()
-                    .map(ChatUploadDTO::new)
-                    .collect(Collectors.toList())
-             );
-
-
- /*
-            //이부분은 리스트로 보내줄시 사용 -> 현재는 리스트가 아닌 한 채팅에 대해서만 보내주는 중
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .map(entity -> new ChatUploadDTO(chatEntity, null))
-                    .collect(Collectors.toList());
-            dtos = userEntities.stream()
-                    .map(entity -> new ChatUploadDTO(null, userEntity))
-                    .collect(Collectors.toList());
-
-
-/*
-            List<ChatResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(ChatResponseBodyDTO::new)
-                    .collect(Collectors.toList());\
-
-
-            List<ChatResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(entity -> new ChatResponseBodyDTO(chatEntity, null))
-                    .collect(Collectors.toList());
-
-            dtos.addAll(userEntities.stream()
-                    .map(entity -> new ChatResponseBodyDTO(null, userEntity))
-                    .collect(Collectors.toList()));
-
-*/
 
             ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
                     .data(dtos)
