@@ -36,7 +36,78 @@ public class SolutionController {
     @GetMapping
     public ResponseEntity<?> getSolution(
             @RequestHeader("email") String email) {
+        try {
+            // 솔루션 엔티티를 저장할 빈 리스트 생성
+            List<SolutionEntity> solutionEntities = new ArrayList<>();
 
+            // 이메일로 사용자 엔티티 가져오기
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+
+            // 사용자 관계를 확인하고 해당하는 솔루션 엔티티 추가
+            if (userEntity.isRelation1()) {
+                SolutionEntity solutionEntity1 = new SolutionEntity();
+                solutionEntity1.setSolutionId("1");
+                solutionEntity1.setKeyword("keyword1");
+                solutionEntity1.setRelation(1);
+                solutionEntity1.setSolutionTitle("title1");
+                solutionEntity1.setSolutionContent("content1");
+                solutionService.createSolutionEntity(solutionEntity1);
+                solutionEntities.add(solutionEntity1);
+            }
+
+            if (userEntity.isRelation2()) {
+                SolutionEntity solutionEntity2 = new SolutionEntity();
+                solutionEntity2.setSolutionId("2");
+                solutionEntity2.setKeyword("keyword2");
+                solutionEntity2.setRelation(2);
+                solutionEntity2.setSolutionTitle("title2");
+                solutionEntity2.setSolutionContent("content2");
+                solutionService.createSolutionEntity(solutionEntity2);
+                solutionEntities.add(solutionEntity2);
+            }
+
+            if (userEntity.isRelation3()) {
+                SolutionEntity solutionEntity3 = new SolutionEntity();
+                solutionEntity3.setSolutionId("3");
+                solutionEntity3.setKeyword("keyword3");
+                solutionEntity3.setRelation(3);
+                solutionEntity3.setSolutionTitle("title3");
+                solutionEntity3.setSolutionContent("content3");
+                solutionService.createSolutionEntity(solutionEntity3);
+                solutionEntities.add(solutionEntity3);
+            }
+
+            if (userEntity.isRelation4()) {
+                SolutionEntity solutionEntity4 = new SolutionEntity();
+                solutionEntity4.setSolutionId("4");
+                solutionEntity4.setKeyword("keyword4");
+                solutionEntity4.setRelation(4);
+                solutionEntity4.setSolutionTitle("title4");
+                solutionEntity4.setSolutionContent("content4");
+                solutionService.createSolutionEntity(solutionEntity4);
+                solutionEntities.add(solutionEntity4);
+            }
+
+            // 솔루션 엔티티를 DTO로 변환
+            List<SolutionResponseDTO> dtos = solutionEntities.stream()
+                    .map(SolutionResponseDTO::new)
+                    .collect(Collectors.toList());
+
+            ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
+                    .data(dtos)
+                    .build();
+
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
+                    .error(error).build();
+
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    }
+/*
         try {
             //db연결시 삭제할 부분---------------------------------------------
             List<SolutionEntity> entities = new ArrayList<>();
@@ -163,3 +234,6 @@ public class SolutionController {
         }
     }
 }
+
+
+ */
