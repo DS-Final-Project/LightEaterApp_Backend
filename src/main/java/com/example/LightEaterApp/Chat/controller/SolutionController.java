@@ -53,39 +53,74 @@ public class SolutionController {
                 solutionEntity1.setSolutionContent("content1");
                 solutionService.createSolutionEntity(solutionEntity1);
                 solutionEntities.add(solutionEntity1);
-            }
 
-            if (userEntity.isRelation2()) {
                 SolutionEntity solutionEntity2 = new SolutionEntity();
-                solutionEntity2.setSolutionId("2");
+                solutionEntity1.setSolutionId("2");
                 solutionEntity2.setKeyword("keyword2");
-                solutionEntity2.setRelation(2);
+                solutionEntity2.setRelation(1);
                 solutionEntity2.setSolutionTitle("title2");
                 solutionEntity2.setSolutionContent("content2");
                 solutionService.createSolutionEntity(solutionEntity2);
                 solutionEntities.add(solutionEntity2);
             }
 
-            if (userEntity.isRelation3()) {
+            if (userEntity.isRelation2()) {
                 SolutionEntity solutionEntity3 = new SolutionEntity();
                 solutionEntity3.setSolutionId("3");
                 solutionEntity3.setKeyword("keyword3");
-                solutionEntity3.setRelation(3);
+                solutionEntity3.setRelation(2);
                 solutionEntity3.setSolutionTitle("title3");
                 solutionEntity3.setSolutionContent("content3");
                 solutionService.createSolutionEntity(solutionEntity3);
                 solutionEntities.add(solutionEntity3);
-            }
 
-            if (userEntity.isRelation4()) {
                 SolutionEntity solutionEntity4 = new SolutionEntity();
                 solutionEntity4.setSolutionId("4");
                 solutionEntity4.setKeyword("keyword4");
-                solutionEntity4.setRelation(4);
+                solutionEntity4.setRelation(2);
                 solutionEntity4.setSolutionTitle("title4");
                 solutionEntity4.setSolutionContent("content4");
                 solutionService.createSolutionEntity(solutionEntity4);
                 solutionEntities.add(solutionEntity4);
+
+            }
+
+            if (userEntity.isRelation3()) {
+                SolutionEntity solutionEntity5 = new SolutionEntity();
+                solutionEntity5.setSolutionId("5");
+                solutionEntity5.setKeyword("keyword5");
+                solutionEntity5.setRelation(3);
+                solutionEntity5.setSolutionTitle("title5");
+                solutionEntity5.setSolutionContent("content5");
+                solutionService.createSolutionEntity(solutionEntity5);
+                solutionEntities.add(solutionEntity5);
+                SolutionEntity solutionEntity6 = new SolutionEntity();
+                solutionEntity6.setSolutionId("6");
+                solutionEntity6.setKeyword("keyword6");
+                solutionEntity6.setRelation(3);
+                solutionEntity6.setSolutionTitle("title6");
+                solutionEntity6.setSolutionContent("content6");
+                solutionService.createSolutionEntity(solutionEntity6);
+                solutionEntities.add(solutionEntity6);
+            }
+
+            if (userEntity.isRelation4()) {
+                SolutionEntity solutionEntity7 = new SolutionEntity();
+                solutionEntity7.setSolutionId("7");
+                solutionEntity7.setKeyword("keyword7");
+                solutionEntity7.setRelation(4);
+                solutionEntity7.setSolutionTitle("title7");
+                solutionEntity7.setSolutionContent("content7");
+                solutionService.createSolutionEntity(solutionEntity7);
+                solutionEntities.add(solutionEntity7);
+                SolutionEntity solutionEntity8 = new SolutionEntity();
+                solutionEntity7.setSolutionId("8");
+                solutionEntity8.setKeyword("keyword8");
+                solutionEntity8.setRelation(4);
+                solutionEntity8.setSolutionTitle("title8");
+                solutionEntity8.setSolutionContent("content8");
+                solutionService.createSolutionEntity(solutionEntity8);
+                solutionEntities.add(solutionEntity8);
             }
 
             // 솔루션 엔티티를 DTO로 변환
@@ -164,6 +199,7 @@ public class SolutionController {
             solutionEntity6.setSolutionContent("content6");
             solutionService.createSolutionEntity(solutionEntity6);
             entities.add(solutionEntity6);
+
             SolutionEntity solutionEntity7 = new SolutionEntity();
             solutionEntity1.setSolutionId("7");
             solutionEntity7.setKeyword("keyword7");
