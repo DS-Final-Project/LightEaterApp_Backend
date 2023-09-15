@@ -127,6 +127,7 @@ public class SolutionController {
             List<SolutionResponseDTO> dtos = solutionEntities.stream()
                     .map(SolutionResponseDTO::new)
                     .collect(Collectors.toList());
+            log.info("solutionDTO:{} ",dtos.toString());
 
             ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
                     .data(dtos)
