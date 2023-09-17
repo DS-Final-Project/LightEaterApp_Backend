@@ -43,6 +43,8 @@ public class SolutionController {
             // 이메일로 사용자 엔티티 가져오기
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
 
+
+            //relation true 중복 데이터 쌓이는 거 수정
             // 사용자 관계를 확인하고 해당하는 솔루션 엔티티 추가
             if (userEntity.isRelation1()) {
                 SolutionEntity solutionEntity1 = new SolutionEntity();
