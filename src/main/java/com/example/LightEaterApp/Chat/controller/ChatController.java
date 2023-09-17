@@ -290,6 +290,8 @@ public class ChatController {
 
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
             ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
+
+            resoponsebodyDTO.setResultNum(chatEntity.getResultNum());
             resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
             resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
             resoponsebodyDTO.setTestType(userEntity.getTestType());
