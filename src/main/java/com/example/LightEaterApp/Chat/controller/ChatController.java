@@ -74,7 +74,7 @@ public class ChatController {
         }
 
     }
-    @PostMapping("/img")
+    @PostMapping(value = "/img ",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
@@ -259,7 +259,7 @@ public class ChatController {
 //재수정22
 
 
-    @PostMapping(value = "/img ",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file ",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
