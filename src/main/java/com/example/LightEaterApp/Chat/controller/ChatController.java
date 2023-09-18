@@ -160,7 +160,7 @@ public class ChatController {
 
  */
 
-
+/*
 //flask 서버와 주고 받음
 
             FlaskResponseDTO flaskResponseDTO = flaskController.sendChatWords().block();
@@ -168,7 +168,7 @@ public class ChatController {
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
 
-
+*/
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
@@ -286,7 +286,7 @@ public class ChatController {
             chatEntity.setChatDate(formattedDate);
 
             //임의설정
-            chatEntity.setResultNum((int) (Math.random()*100));
+            //chatEntity.setResultNum((int) (Math.random()*100));
 
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
 

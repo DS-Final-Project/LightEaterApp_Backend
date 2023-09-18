@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.net.URI;
 import java.util.Date;
 
@@ -27,6 +24,7 @@ public class ChatEntity {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String chatId;
 
+    @Column(length = 20000)
     private String chatData;
 
 
