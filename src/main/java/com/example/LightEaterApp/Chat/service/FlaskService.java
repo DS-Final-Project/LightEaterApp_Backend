@@ -9,14 +9,14 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/*
 @Slf4j
 @Service
 public class FlaskService {
     private final WebClient webClient;
 
     public FlaskService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://172.20.10.6:5000").build();
+        this.webClient = webClientBuilder.baseUrl("http://172.20.27.44:5000").build();
     }
 
 
@@ -35,3 +35,6 @@ public class FlaskService {
     }
 }
 
+
+
+ */

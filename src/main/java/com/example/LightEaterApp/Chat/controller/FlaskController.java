@@ -19,7 +19,7 @@ public class FlaskController {
     private final WebClient webClient;
 
     public FlaskController(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://172.20.11.56:5000").build();
+        this.webClient = webClientBuilder.baseUrl("http://172.20.27.44:5000").build();
     }
 
     @EventListener(ApplicationReadyEvent.class)
