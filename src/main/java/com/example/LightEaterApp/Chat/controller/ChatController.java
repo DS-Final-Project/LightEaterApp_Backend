@@ -42,6 +42,8 @@ public class ChatController {
     @Autowired
     private FlaskService flaskService;
     @Autowired
+    private FlaskController flaskController;
+    @Autowired
     private URIRepository uriRepository;
 
     @Autowired
@@ -161,7 +163,7 @@ public class ChatController {
 
 //flask 서버와 주고 받음
 
-            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
+            FlaskResponseDTO flaskResponseDTO = flaskController.sendChatWords().block();
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());

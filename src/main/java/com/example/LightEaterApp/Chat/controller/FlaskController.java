@@ -1,6 +1,6 @@
 package com.example.LightEaterApp.Chat.controller;
 
-/*
+
 import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -13,17 +13,17 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
-/*
+
 @Slf4j
 @RestController
 public class FlaskController {
     private final WebClient webClient;
 
     public FlaskController(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://172.20.27.44:5000").build();
+        this.webClient = webClientBuilder.baseUrl("http://172.20.10.6:5000").build();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+    //@EventListener(ApplicationReadyEvent.class)
 
     public Mono<FlaskResponseDTO> sendChatWords() {
         String chatwords = "chatwords";
@@ -43,7 +43,7 @@ public class FlaskController {
                 });
     }
 }
-*/
+
 
 
 
