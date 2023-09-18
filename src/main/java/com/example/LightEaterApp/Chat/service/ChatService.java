@@ -33,7 +33,7 @@ public class ChatService {
         repository.save(entity);
 
         log.info("Entity chatId: {} is saved.", entity.getChatId());
-        log.info("Entity chatWords: {} is saved.", entity.getChatData());
+        //log.info("Entity chatWords: {} is saved.", entity.getChatData());
         log.info("Entity resultnum: {} is saved.", entity.getResultNum());
         log.info("Entity date: {} is saved.", entity.getChatDate());
         log.info("relation:{}", entity.getRelation());
