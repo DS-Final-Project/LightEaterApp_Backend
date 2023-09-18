@@ -23,7 +23,7 @@ public class FlaskService {
    //ChatWords 문자열을 flask서비스에 보내는 역할
     public Mono<Integer> sendChatWords(String ChatWords) {
         Map<String, Object> chatWords = new HashMap<>();
-        chatWords.put("chatWords", ChatWords);
+        chatWords.put("chatWords", "ChatWords");
 
         return webClient.method(HttpMethod.POST)
                 .uri("/percentage")
