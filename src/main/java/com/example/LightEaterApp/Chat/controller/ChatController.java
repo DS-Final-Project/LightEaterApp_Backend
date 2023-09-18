@@ -14,6 +14,7 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.persistence.URIRepository;
 import com.example.LightEaterApp.Chat.service.ChatService;
 //import com.example.LightEaterApp.Chat.service.FlaskService;
+import com.example.LightEaterApp.Chat.service.FlaskService;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,12 @@ public class ChatController {
     private ChatService chatService;
     @Autowired
     private UserService userService;
-    //@Autowired
-    //private FlaskService flaskService;
+    @Autowired
+    private FlaskService flaskService;
     @Autowired
     private URIRepository uriRepository;
-    @Autowired
-    private FlaskController flaskController;
+    //@Autowired
+    //private FlaskController flaskController;
 
     //
     @PostMapping("/img")
