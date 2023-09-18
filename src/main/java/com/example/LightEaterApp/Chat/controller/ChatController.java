@@ -117,6 +117,7 @@ public class ChatController {
                 chatEntity.setChatData(resultText);
                 log.info("resultText:{}", resultText);
                 log.info("relation:{}", relation);
+                log.info("relationValue:{}", relationValue);
                 //System.out.println(resultText);
 
                 //flask에 보내기
@@ -126,12 +127,16 @@ public class ChatController {
                 e.printStackTrace();
                 log.info("Failed to upload file");
             }
+            chatEntity.setRelation(relationValue);
             chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
             chatEntity.setResultNum(81);
+
+            chatEntity.setDoubtText1("이게 노력하는사람 모습이가");
+            chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
             //chatEntity.setResultNum((int) (Math.random() * 100));
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
             if (relationValue == 1) {
@@ -163,8 +168,6 @@ public class ChatController {
 
  */
 
-            chatEntity.setDoubtText1("이게 노력하는사람 모습이가");
-            chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
 
 //flask 서버와 주고 받음
 /*
