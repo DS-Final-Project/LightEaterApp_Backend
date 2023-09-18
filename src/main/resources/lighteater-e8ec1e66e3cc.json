@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "lighteater",
+  "private_key_id": "e8ec1e66e3cccbbc2b9b46802e2042e725b35ddd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCbHmfg+EPcZvpC\n/7t4B1u5Iy8EO/ImfbhDHpPngR7TEapBxvlIaOXaVT2uKPjnKIrt5Z3pVaafBUKK\nIA+xVAGFm4MiH/f43K1Poui5dM/t9VcelI/0NfGgH09wUPTZtOSOrx8k/Xw86kO4\neJB2dJ/9ytp/S4AqcRkyu4dXqRHC4hkSGzCCt1Yj4YGmiDSvLMK3aCYC9S4RVvhA\ngqlrB6I3MDGay5vUvVXXI7HB0gDrF+L+8PUt7dMTtWcf0KulN+SbcxqNN5Ybru4/\n3WuWy9UG5xTXQLpU0wlhjeLKfbJlRtICJ+jQ3yBYtbOPAe1OGNxFmpHmxE/fqQYa\nd7LrbaOtAgMBAAECggEAC3JYymOs/PiGaDz0ibzKmnoLr/13zDpZHMQxYuiG10mF\nmFlar5VkvNIEfV5y+6U6F1MV7jrj/aEcPL11RanZe5Fdwb4ShO/37sP/9iDgxS0R\nHZBrTQ38A3ZmsiGZ5++EMY6ftubpF5pWnqga9PrR4Z8UtPG5MVNA6kWnYk3MzJDY\nOIsVj8WlY677wjc3NFAafu1iky1fLfQSqww1qf7sqbDxWuCl8g8HeSvnoBTvZ/Q1\no4NiSuBH2gUQyWJxEUzRlYCpimKHbU87qp21/N/yLd3Im82ktTyrqZJtFNUS/QSQ\nXVhUxH7edDF434lbeXyp/cfXAVtBO5HHi7zxTjaXAQKBgQDWpOPBIxJPZDCE+mda\n46VrWwUiiuykuljAMwhIdUATSCr5iIyY08AQc0VgA1hG8ol7pPcKttCvC0WONRpv\nTuo9TIXTOVPe2KPNrNkqNvgIPFxH9K+S/elmF+W8N/ZllxyCWydo7iBk+CJ+rdmP\nB7bca5cuTMTgvei7TXGhKlRGLQKBgQC5AXzPGHjYD47/Tv3P9yFhxQtoJ+Jwp7au\nLasulQB0WryJm9Teq8inCOgvSM7Is48Rvp8C3Pb4xQL2Z2wYO1kaNAgtBoxtk6m8\n5dbQfu4LNfvIEDowxukqsKvmoajX8FKpijjBDqficswXCGe9NBqwYdohD7OVRYjB\n/+T03srDgQKBgHoZEfWrnZ7Lv03loyVwmYiYHjOoEzUhS5sJbIzLJcfSJaAMrO3C\nhl7VM4GKZYz2Kn7LODxAAjWQk+BxFLh8i4KTJQ0ibzM0yPkWefIpkq4cp+HGrplP\nFpWcwnJu4xqm+vCsKZ7m1kaZYAXvnvJd0QdRrI4J3XR6kwj45Mpo6ceBAoGAQiKp\n/058RKCrOdF/Ikzx/gV2onE/nY4W3AUvYKObWfzl0TuHyWIXhL7GYcDhSxYFWw6N\nwXRERYIIIRWvqqnsnFVlZtMkeDeFQiXXuQjnB9LwgwBqDO3OhJhLm1LHDQq4QitL\nRph6o5TuKH20uApcUBlq5M68H+yPiupzaqYKTgECgYBFArHB1g8PzkY9q4+9M/MU\nUhRz8LiFAvfxfGyaIho8tu2xS6+SotPPOjNQhP9Aoi96ADPHI3crHvqLRHp2NGWl\nzb8MfSCyk0hb3fcBXH6yp2Ks2Qvr509o9l3m2394GmPt+1xmpAOMrMk5f1KSFL2l\n7Ak9z+dQejahzTEpth2BYg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "seonghyen@lighteater.iam.gserviceaccount.com",
+  "client_id": "110177249214517471724",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/seonghyen%40lighteater.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
