@@ -1,6 +1,7 @@
 package com.example.LightEaterApp.Chat.controller;
 
 
+import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -24,30 +25,22 @@ public class FlaskController {
 
     @EventListener(ApplicationReadyEvent.class)
 
-    public Mono<String> sendChatWords() {
+    public Mono<FlaskResponseDTO> sendChatWords() {
         String chatwords = "chatwords";
         Map<String, Object> chatWords = new HashMap<>();
-        chatWords.put("chatWords", chatWords);
-
+        chatWords.put("chatWords", "chatwords");  //
 
         return webClient.method(HttpMethod.POST)
                 .uri("/percentage")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(chatWords)
                 .retrieve()
-                .bodyToMono(Map.class)
-                .map(result -> {
-                    Map<String, Object> resultMap = (Map<String, Object>) result;
-                    String resultNum = "resultNum: " + resultMap.get("resultNum");
-                    String doubtSentence1 = "doubtSentence1: " + resultMap.get("doubtsentence1");
-                    String doubtSentence2 = "doubtSentence2: " + resultMap.get("doubtsentence2");
-                    log.info("resultnum: {}",resultNum);
-                    log.info("resultnum: {}",doubtSentence1);
-                    log.info("resultnum: {}",doubtSentence2);
-                    return resultNum + ", " + doubtSentence1 + ", " + doubtSentence2;
-
+                .bodyToMono(FlaskResponseDTO.class)
+                .doOnNext(response -> {
+                    log.info("resultNum: {}", response.getResultNum());
+                    log.info("doubtText1: {}", response.getDoubtText1());
+                    log.info("doubtText2: {}", response.getDoubtText2());
                 });
-
     }
 }
 
