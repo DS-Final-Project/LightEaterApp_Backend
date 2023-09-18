@@ -15,7 +15,7 @@ import java.net.URI;
 @Data
 public class ChatUploadRequestBodyDTO {
     //!!!!!!!임시 테스트용 !!!!!!!!//
-    private URI chatData;
+   // private URI chatData;
 
     //private String chatId;
     //private String userId;
@@ -45,7 +45,7 @@ public class ChatUploadRequestBodyDTO {
 
     public ChatUploadRequestBodyDTO(final ChatEntity chatEntity, UserEntity userEntity) {
         //!!!!!!!임시!!!!!!!//
-        this.chatData = chatEntity.getChatData();
+        //this.chatData = chatEntity.getChatData();
 
         //this.chatId = chatEntity.getChatId();
         //this.userId = chatEntity.getUserId();
@@ -73,7 +73,7 @@ public class ChatUploadRequestBodyDTO {
 
     public ChatUploadRequestBodyDTO(final ChatEntity chatEntity) {
         //!!!!!!!임시!!!!!!!//
-        this.chatData = chatEntity.getChatData();
+        //this.chatData = chatEntity.getChatData();
 
         //this.chatId = chatEntity.getChatId();
         //this.userId = chatEntity.getUserId();
@@ -113,7 +113,7 @@ public class ChatUploadRequestBodyDTO {
     //DTO를 받아서 저장
     public static ChatEntity toChatEntity(final ChatUploadRequestBodyDTO dto) {
         return ChatEntity.builder()
-                .chatData(dto.getChatData())
+                //.chatData(dto.getChatData())
                 //.chatId(dto.getChatId())
                 //.userId(dto.getUserId())
                 //.resultNum(dto.getResultNum())

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class ChatEntity {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String chatId;
 
-    private URI chatData;
+    private String chatData;
 
 
     private String userId;
