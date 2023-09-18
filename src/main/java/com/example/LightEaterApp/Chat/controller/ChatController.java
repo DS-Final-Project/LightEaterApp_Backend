@@ -14,13 +14,16 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.persistence.URIRepository;
 import com.example.LightEaterApp.Chat.service.ChatService;
 import com.example.LightEaterApp.Chat.service.FlaskService;
+import com.example.LightEaterApp.Chat.service.OcrService;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,51 +42,102 @@ public class ChatController {
     private FlaskService flaskService;
     @Autowired
     private URIRepository uriRepository;
-    //@Autowired
-    //private FlaskController flaskController;
+
+    @Autowired
+    private OcrService ocrService;
 
     //
+    @PostMapping("/imgUpload")
+    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file,@RequestParam("relation") String relation) {
+        // 파일 처리 로직
+        try {
+            //파일 로컬에 저장X
+            // 이미지 파일 처리
+            byte[] imageBytes = file.getBytes();
+            String originalFilename = file.getOriginalFilename();
+
+            // relation 값 처리
+            int relationValue = Integer.parseInt(relation);
+
+            //ocr 처리
+            String resultText = ocrService.detectText2(imageBytes);
+            log.info("resultText:{}",resultText);
+            System.out.println(resultText);
+
+            //flask에 보내기
+            return ResponseEntity.ok("File uploaded successfully");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Failed to upload file");
+        }
+
+    }
     @PostMapping("/img")
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
-            @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
+            @RequestParam("image") MultipartFile file,
+            @RequestParam("relation") String relation
+            //@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
+    ) {
         try {
+
             Date chatDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
-            log.info("date:{}",formattedDate);
+            log.info("date:{}", formattedDate);
 
 
             //!!이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
             //String temporaryUserId = "userId";
 
             //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
-            ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
+            ChatEntity chatEntity = new ChatEntity();
             //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
 
+            int relationValue = 0;
+            try {
+                //파일 로컬에 저장X
+                // 이미지 파일 처리
+                byte[] imageBytes = file.getBytes();
+                String originalFilename = file.getOriginalFilename();
+
+                // relation 값 처리
+                relationValue = Integer.parseInt(relation);
+
+                //ocr 처리
+                String resultText = ocrService.detectText2(imageBytes);
+                chatEntity.setChatData(resultText);
+                log.info("resultText:{}", resultText);
+                //System.out.println(resultText);
+
+                //flask에 보내기
+                log.info("File uploaded successfully");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                log.info("Failed to upload file");
+            }
             chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
-            chatEntity.setResultNum((int) (Math.random()*100));
+            chatEntity.setResultNum((int) (Math.random() * 100));
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
-            if (chatUploadRequestBodyDTO.getRelation()==1){
+            if (relationValue == 1) {
                 userEntity.setRelation1(true);
 
-            } else if (chatUploadRequestBodyDTO.getRelation()==2) {
+            } else if (relationValue == 2) {
                 userEntity.setRelation2(true);
-            }
-            else if (chatUploadRequestBodyDTO.getRelation()==3) {
+            } else if (relationValue == 3) {
                 userEntity.setRelation3(true);
-            }
-            else if (chatUploadRequestBodyDTO.getRelation()==4) {
+            } else if (relationValue == 4) {
                 userEntity.setRelation4(true);
             }
-
 
 
             //!!여기는 userEntity에서 가져올 값
@@ -104,16 +158,12 @@ public class ChatController {
  */
 
 
-
-
-
 //flask 서버와 주고 받음
 
-             FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
-
 
 
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
@@ -129,15 +179,15 @@ public class ChatController {
                 uriEntity.setUri(imageUri);
 
 
-
                 uriRepository.save(uriEntity);
                 log.info("File URI saved successfully.");
                 // return ResponseEntity.ok("File URI saved successfully.");
             } catch (Exception e) {
-                log.info("Failed to save file URI: "+ e.getMessage());
+                log.info("Failed to save file URI: " + e.getMessage());
                 //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
             }
-*/
+
+ */
 
 
             //수정
@@ -289,9 +339,9 @@ public class ChatController {
                 log.info("Failed to save file URI: "+ e.getMessage());
                 //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
             }
+
+
 */
-
-
 
 
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
