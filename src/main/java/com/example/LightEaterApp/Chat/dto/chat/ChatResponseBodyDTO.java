@@ -29,9 +29,9 @@ public class ChatResponseBodyDTO {
         this.relation = chatUploadRequestBodyDTO.getRelation();
         this.doubtText1 ="doubtText1";
         this.doubtText2 ="doubtText2";
-        this.doubtText3 ="doubtText3";
-        this.doubtText4 ="doubtText4";
-        this.doubtText5 ="doubtText5";
+        this.doubtText3 =null;
+        this.doubtText4 =null;
+        this.doubtText5 =null;
     }
 /*
 

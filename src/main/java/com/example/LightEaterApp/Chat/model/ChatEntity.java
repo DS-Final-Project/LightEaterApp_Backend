@@ -38,7 +38,8 @@ public class ChatEntity {
     private int relation;
     private String chatText;
     private String chatDate;
-    //private String doubtSentence;
+    private String doubtText1;
+    private String doubtText2;
 
 
 /*
