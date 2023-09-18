@@ -18,6 +18,7 @@ import com.example.LightEaterApp.Chat.service.OcrService;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -258,7 +259,7 @@ public class ChatController {
 //재수정22
 
 
-    @PostMapping("/file")
+    @PostMapping(value = "/img ",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
