@@ -6,6 +6,7 @@ import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 
 
+import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.URIEntity;
@@ -105,15 +106,16 @@ public class ChatController {
 
 
 
-/*
+
 //flask 서버와 주고 받음
 
-            //int resultnum = flaskService.sendChatWords(entity.getChatWords()).block();
-
-            entity.setResultNum(resultnum);
+             FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
- */
+            chatEntity.setResultNum(flaskResponseDTO.getResultNum());
+
+
+
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
@@ -262,15 +264,14 @@ public class ChatController {
 
 
 
-/*
-//flask 서버와 주고 받음
 
-            //int resultnum = flaskService.sendChatWords(entity.getChatWords()).block();
-
-            entity.setResultNum(resultnum);
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
- */         //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
+            chatEntity.setResultNum(flaskResponseDTO.getResultNum());
+
+
+            //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
             //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
