@@ -160,9 +160,11 @@ public class ChatController {
 
  */
 
+            chatEntity.setDoubtText1("이게 노력하는사람 모습이가");
+            chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
 
 //flask 서버와 주고 받음
-
+/*
             FlaskResponseDTO flaskResponseDTO = flaskController.sendChatWords().block();
 
 
@@ -170,7 +172,7 @@ public class ChatController {
             chatEntity.setDoubtText1(flaskResponseDTO.getDoubtText1());
             chatEntity.setDoubtText2(flaskResponseDTO.getDoubtText2());
 
-
+*/
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
