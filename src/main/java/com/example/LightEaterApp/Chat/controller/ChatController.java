@@ -117,6 +117,7 @@ public class ChatController {
                 //flask에 보내기
                 log.info("File uploaded successfully");
 
+
             } catch (IOException e) {
                 e.printStackTrace();
                 log.info("Failed to upload file");
