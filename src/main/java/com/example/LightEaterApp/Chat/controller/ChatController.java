@@ -167,6 +167,8 @@ public class ChatController {
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
+            chatEntity.setDoubtText1(flaskResponseDTO.getDoubtText1());
+            chatEntity.setDoubtText2(flaskResponseDTO.getDoubtText2());
 
 
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
