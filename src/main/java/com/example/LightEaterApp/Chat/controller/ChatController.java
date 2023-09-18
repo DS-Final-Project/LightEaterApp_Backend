@@ -74,7 +74,7 @@ public class ChatController {
         }
 
     }
-    @PostMapping(value = "/img ",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/img",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
