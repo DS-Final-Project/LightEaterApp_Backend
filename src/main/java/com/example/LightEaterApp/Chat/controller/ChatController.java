@@ -38,6 +38,8 @@ public class ChatController {
     private FlaskService flaskService;
     @Autowired
     private URIRepository uriRepository;
+    @Autowired
+    private FlaskController flaskController;
 
     //
     @PostMapping("/img")

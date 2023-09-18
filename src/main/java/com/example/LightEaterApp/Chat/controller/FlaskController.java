@@ -23,6 +23,7 @@ public class FlaskController {
     }
 
     @EventListener(ApplicationReadyEvent.class)
+
     public Mono<String> sendChatWords() {
         String chatwords = "chatwords";
         Map<String, Object> chatWords = new HashMap<>();
