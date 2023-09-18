@@ -39,8 +39,8 @@ public class ChatController {
     private FlaskService flaskService;
     @Autowired
     private URIRepository uriRepository;
-    @Autowired
-    private FlaskController flaskController;
+    //@Autowired
+    //private FlaskController flaskController;
 
     //
     @PostMapping("/img")
@@ -121,7 +121,7 @@ public class ChatController {
             //!!로그인&자가진단 구현시 삭제될 부분
             //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
-
+/*
             URI imageUri = chatEntity.getChatData();
 
             try {
@@ -137,7 +137,7 @@ public class ChatController {
                 log.info("Failed to save file URI: "+ e.getMessage());
                 //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
             }
-
+*/
 
 
             //수정
@@ -276,7 +276,7 @@ public class ChatController {
             log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
             //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
             //log.info("챗 컨트롤러 userEntities:{}",userEntities);
-
+/*
             URI fileUri = chatEntity.getChatData();
 
             try {
@@ -289,7 +289,7 @@ public class ChatController {
                 log.info("Failed to save file URI: "+ e.getMessage());
                 //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
             }
-
+*/
 
 
 
