@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class FlaskResponseDTO {
     private int resultNum;
-    private String doubtSentence1;
-    private String doubtSentence2;
+    private String doubtText1;
+    private String doubtText2;
 
 
 }

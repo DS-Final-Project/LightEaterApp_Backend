@@ -28,7 +28,7 @@ public class FlaskController {
     public Mono<FlaskResponseDTO> sendChatWords() {
         String chatwords = "chatwords";
         Map<String, Object> chatWords = new HashMap<>();
-        chatWords.put("chatWords", chatWords);
+        chatWords.put("chatWords", "chatwords");  //
 
         return webClient.method(HttpMethod.POST)
                 .uri("/percentage")
@@ -38,8 +38,8 @@ public class FlaskController {
                 .bodyToMono(FlaskResponseDTO.class)
                 .doOnNext(response -> {
                     log.info("resultNum: {}", response.getResultNum());
-                    log.info("doubtSentence1: {}", response.getDoubtSentence1());
-                    log.info("doubtSentence2: {}", response.getDoubtSentence2());
+                    log.info("doubtText1: {}", response.getDoubtText1());
+                    log.info("doubtText2: {}", response.getDoubtText2());
                 });
     }
 }
