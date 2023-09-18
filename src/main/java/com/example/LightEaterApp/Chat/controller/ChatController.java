@@ -211,6 +211,8 @@ public class ChatController {
             resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
             resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
             resoponsebodyDTO.setTestType(userEntity.getTestType());
+            resoponsebodyDTO.setDoubtText1("이게 노력하는사람 모습이가");
+            resoponsebodyDTO.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
