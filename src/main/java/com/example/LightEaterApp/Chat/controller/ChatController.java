@@ -65,7 +65,8 @@ public class ChatController {
             //ocr 처리
             String resultText = ocrService.detectText2(imageBytes);
             log.info("resultText:{}",resultText);
-            System.out.println(resultText);
+            log.info("resultText:{}",relation);
+
 
             //flask에 보내기
             return ResponseEntity.ok("File uploaded successfully");
@@ -115,6 +116,7 @@ public class ChatController {
                 String resultText = ocrService.detectText2(imageBytes);
                 chatEntity.setChatData(resultText);
                 log.info("resultText:{}", resultText);
+                log.info("relation:{}", relation);
                 //System.out.println(resultText);
 
                 //flask에 보내기
@@ -129,7 +131,8 @@ public class ChatController {
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
-            chatEntity.setResultNum((int) (Math.random() * 100));
+            chatEntity.setResultNum(81);
+            //chatEntity.setResultNum((int) (Math.random() * 100));
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
             if (relationValue == 1) {
                 userEntity.setRelation1(true);
