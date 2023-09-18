@@ -1,6 +1,6 @@
 package com.example.LightEaterApp.Chat.controller;
 
-
+/*
 import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -46,3 +46,6 @@ public class FlaskController {
 
 
 
+
+
+ */
