@@ -273,7 +273,7 @@ public class ChatController {
 //재수정22
 
 
-    @PostMapping(value = "/file ")//,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file")//,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
