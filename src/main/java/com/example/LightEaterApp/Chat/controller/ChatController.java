@@ -298,7 +298,7 @@ public class ChatController {
             chatEntity.setChatDate(formattedDate);
 
             //임의설정
-            //chatEntity.setResultNum((int) (Math.random()*100));
+            chatEntity.setResultNum((int) (Math.random()*100));
 
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
 

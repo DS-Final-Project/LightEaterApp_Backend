@@ -107,19 +107,23 @@ public class GoogleController {
             if(resultJson != null) {
                 GoogleLoginDTO userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDTO>() {});
 
-                UserEntity userEntity = new UserEntity();
-                userEntity.setUserId(null);
-                userEntity.setUserId(jwtToken);
-                userEntity.setName(userInfoDto.getName());
-                userEntity.setUserEmail(userInfoDto.getEmail());
-                log.info("userEntity:{}",userEntity.toString());
-                List<UserEntity> userEntities = userService.createUserEntity(userEntity);
+                if(userService.retrieveByUserEmailByEntity(userInfoDto.getEmail())==null) {
+                    UserEntity userEntity = new UserEntity();
+                    userEntity.setUserId(null);
+                    userEntity.setUserId(jwtToken);
+                    userEntity.setName(userInfoDto.getName());
+                    userEntity.setUserEmail(userInfoDto.getEmail());
+                    log.info("userEntity:{}", userEntity.toString());
+                    List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
-                String aaaa ="test";
-                log.info("sucess");
-                log.info("token:{}",jwtToken);
-                log.info("userInfoDto:{}",userInfoDto.toString());
-
+                    String aaaa = "test";
+                    log.info("sucess");
+                    log.info("token:{}", jwtToken);
+                    log.info("userInfoDto:{}", userInfoDto.toString());
+                }
+                else {
+                    log.info("이미 가입되어있는 회원입니다.");
+                }
                 GoogleLoginResponseDTO response = GoogleLoginResponseDTO.builder()
                         .build();
 
