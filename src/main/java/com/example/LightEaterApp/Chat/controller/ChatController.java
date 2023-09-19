@@ -170,15 +170,15 @@ public class ChatController {
 
 
 //flask 서버와 주고 받음
-/*
-            FlaskResponseDTO flaskResponseDTO = flaskController.sendChatWords().block();
+
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
             chatEntity.setDoubtText1(flaskResponseDTO.getDoubtText1());
             chatEntity.setDoubtText2(flaskResponseDTO.getDoubtText2());
 
-*/
+
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
@@ -273,7 +273,7 @@ public class ChatController {
 //재수정22
 
 
-    @PostMapping(value = "/file ",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file ")//,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
@@ -329,13 +329,13 @@ public class ChatController {
 
 
 
-
+/*
             FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
 
-
+*/
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
