@@ -273,11 +273,14 @@ public class ChatController {
 //재수정22
 
 
-    @PostMapping(value = "/file")//,consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
-            @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
+            @RequestParam("image") MultipartFile file,
+            @RequestParam("relation") String relation
+            ///@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
+            ) {
         try {
 
             Date chatDate = new Date();
@@ -285,7 +288,7 @@ public class ChatController {
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
 
-
+/*
 
 
             ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
@@ -314,7 +317,7 @@ public class ChatController {
             else if (chatUploadRequestBodyDTO.getRelation()==4) {
                 userEntity.setRelation4(true);
             }
-
+*/
 
             //userEntity.setUserId(email);
             //userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
@@ -337,8 +340,8 @@ public class ChatController {
 
 */
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
-            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
-            log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
+            //List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
+           // log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
             //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
             //log.info("챗 컨트롤러 userEntities:{}",userEntities);
 /*
@@ -357,7 +360,7 @@ public class ChatController {
 
 
 */
-
+/*
 
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
             ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
@@ -366,7 +369,7 @@ public class ChatController {
             resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
             resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
             resoponsebodyDTO.setTestType(userEntity.getTestType());
-
+*/
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -410,7 +413,7 @@ public class ChatController {
 */
 
             ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
-                    .data(resoponsebodyDTO)
+                    //.data(resoponsebodyDTO)
                     .build();
 
 
