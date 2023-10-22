@@ -40,8 +40,9 @@ public class MypageController {
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
 
             PreviousMypageResponsebodyDTO dto = new PreviousMypageResponsebodyDTO(chatEntity,userEntity);
-            dto.setDoubtText1("이게 노력하는사람 모습이가");
-            dto.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
+            dto.setDoubtText1(chatEntity.getDoubtText1());
+            dto.setDoubtText2(chatEntity.getDoubtText2());
+
 
 
             MypageResponseDTO response = MypageResponseDTO.<MypageResponseBodyDTO>builder()

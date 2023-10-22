@@ -32,7 +32,7 @@ public class SolutionController {
     @Autowired
     private UserService userService;
 
-
+//git kraken
     @GetMapping
     public ResponseEntity<?> getSolution(
             @RequestHeader("email") String email) {
@@ -49,9 +49,9 @@ public class SolutionController {
             if (userEntity.isRelation1()) {
                 SolutionEntity solutionEntity1 = new SolutionEntity();
                 solutionEntity1.setSolutionId("1");
-                solutionEntity1.setKeyword("keyword1");
+                solutionEntity1.setKeyword("대화");
                 solutionEntity1.setRelation(1);
-                solutionEntity1.setSolutionTitle("title1");
+                solutionEntity1.setSolutionTitle("연인과 대화하는 방법");
                 solutionEntity1.setSolutionContent("content1");
                 solutionService.createSolutionEntity(solutionEntity1);
                 solutionEntities.add(solutionEntity1);

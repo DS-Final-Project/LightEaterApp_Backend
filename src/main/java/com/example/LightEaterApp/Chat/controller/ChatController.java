@@ -12,10 +12,7 @@ import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.URIEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.persistence.URIRepository;
-import com.example.LightEaterApp.Chat.service.ChatService;
-import com.example.LightEaterApp.Chat.service.FlaskService;
-import com.example.LightEaterApp.Chat.service.OcrService;
-import com.example.LightEaterApp.Chat.service.UserService;
+import com.example.LightEaterApp.Chat.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,15 +40,18 @@ public class ChatController {
     private UserService userService;
     @Autowired
     private FlaskService flaskService;
-    @Autowired
-    private FlaskController flaskController;
+    //@Autowired
+    //private FlaskController flaskController;
     @Autowired
     private URIRepository uriRepository;
+    @Autowired
+    private ExtractDataService extractDataService;
 
     @Autowired
     private OcrService ocrService;
 
     //
+    /*
     @PostMapping("/imgUpload")
     public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file,@RequestParam("relation") String relation) {
         // 파일 처리 로직
@@ -77,6 +79,8 @@ public class ChatController {
         }
 
     }
+
+     */
     @PostMapping(value = "/img",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
@@ -114,6 +118,8 @@ public class ChatController {
 
                 //ocr 처리
                 String resultText = ocrService.detectText2(imageBytes);
+
+
                 chatEntity.setChatData(resultText);
                 log.info("resultText:{}", resultText);
                 log.info("relation:{}", relation);
@@ -170,8 +176,14 @@ public class ChatController {
 
 
 //flask 서버와 주고 받음
-
-            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
+/*
+            List<ExtractDataService.Pair<String, ExtractDataService.Point>> extractedData = extractDataService.extractDataFromString(chatEntity.getChatData());
+            log.info("extractedData:{}",extractedData);
+            String formattedText = extractDataService.formatTextByYValue(extractedData);
+            log.info("formattedText:{}",formattedText);
+*/
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords(chatEntity.getChatData()).block();
+            log.info("flaskService완료");
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
@@ -205,14 +217,14 @@ public class ChatController {
 
             //수정
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
-            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
+            ChatResponseBodyDTO responsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
 
-            resoponsebodyDTO.setResultNum(chatEntity.getResultNum());
-            resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
-            resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
-            resoponsebodyDTO.setTestType(userEntity.getTestType());
-            resoponsebodyDTO.setDoubtText1("이게 노력하는사람 모습이가");
-            resoponsebodyDTO.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
+            responsebodyDTO.setResultNum(chatEntity.getResultNum());
+            responsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
+            responsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
+            responsebodyDTO.setTestType(userEntity.getTestType());
+            responsebodyDTO.setDoubtText1(flaskResponseDTO.getDoubtText1());
+            responsebodyDTO.setDoubtText2(flaskResponseDTO.getDoubtText2());
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -256,7 +268,7 @@ public class ChatController {
 */
 
             ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
-                    .data(resoponsebodyDTO)
+                    .data(responsebodyDTO)
                     .build();
 
 
@@ -277,7 +289,7 @@ public class ChatController {
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
-            @RequestParam("image") MultipartFile file,
+            @RequestParam("file") MultipartFile file,
             @RequestParam("relation") String relation
             ///@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
             ) {
@@ -287,6 +299,47 @@ public class ChatController {
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
+            MultipartFile givenFile = new MultipartFile() {
+                @Override
+                public String getName() {
+                    return null;
+                }
+
+                @Override
+                public String getOriginalFilename() {
+                    return null;
+                }
+
+                @Override
+                public String getContentType() {
+                    return null;
+                }
+
+                @Override
+                public boolean isEmpty() {
+                    return false;
+                }
+
+                @Override
+                public long getSize() {
+                    return 0;
+                }
+
+                @Override
+                public byte[] getBytes() throws IOException {
+                    return new byte[0];
+                }
+
+                @Override
+                public InputStream getInputStream() throws IOException {
+                    return null;
+                }
+
+                @Override
+                public void transferTo(File dest) throws IOException, IllegalStateException {
+
+                }
+            };
 
 /*
 
