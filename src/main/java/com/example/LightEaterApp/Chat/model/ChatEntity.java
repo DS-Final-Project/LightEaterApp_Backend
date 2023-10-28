@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.net.URI;
@@ -38,7 +39,11 @@ public class ChatEntity {
     private String chatDate;
     private String doubtText1;
     private String doubtText2;
-    //private String doubtSentence;
+    private String doubtText3;
+    private String doubtText4;
+    private String doubtText5;
+
+
 
 
 /*

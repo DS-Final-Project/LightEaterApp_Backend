@@ -3,8 +3,6 @@ package com.example.LightEaterApp.Chat.service;
 
 import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -22,7 +20,7 @@ public class FlaskService {
     private final WebClient webClient;
 
     public FlaskService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://172.20.10.6:5000").build();
+        this.webClient = webClientBuilder.baseUrl("http://172.20.10.2:5000").build();
     }
 
     public static class ExtractData {
@@ -77,6 +75,26 @@ public class FlaskService {
 
             return String.join("\n", cleanedLines);
         }
+        public static List<String> extractConversations(String text) {
+            // 정규표현식 패턴
+            Pattern pattern = Pattern.compile(": (.*?)\\n");
+
+            // 정규표현식을 사용하여 대화 추출
+            Matcher matcher = pattern.matcher(text);
+            List<String> conversations = new ArrayList<>();
+
+            while (matcher.find()) {
+                String conversation = matcher.group(1);
+                conversations.add(conversation);
+            }
+
+            // 첫 번째 요소 삭제
+            if (conversations.size() > 0) {
+                conversations.remove(0);
+            }
+
+            return conversations;
+        }
 
         public static class Point {
             public int x, y;
@@ -100,7 +118,7 @@ public class FlaskService {
 
     }
     //@EventListener(ApplicationReadyEvent.class)
-    public Mono<FlaskResponseDTO> sendChatWords(String chatwords) {
+    public Mono<FlaskResponseDTO> sendChatWordsByImg(String chatwords) {
 
         FlaskService.ExtractData extractor = new FlaskService.ExtractData();
         List<FlaskService.ExtractData.Pair<String, FlaskService.ExtractData.Point>> extractedData = extractor.extractDataFromString(chatwords);
@@ -119,9 +137,38 @@ public class FlaskService {
                     log.info("resultNum: {}", response.getResultNum());
                     log.info("doubtText1: {}", response.getDoubtText1());
                     log.info("doubtText2: {}", response.getDoubtText2());
+                    log.info("doubtText3: {}", response.getDoubtText3());
+                    log.info("doubtText4: {}", response.getDoubtText4());
+                    log.info("doubtText5: {}", response.getDoubtText5());
                 });
     }
 
+    public Mono<FlaskResponseDTO> sendChatWordsByFile(String chatwords) {
+/*
+        FlaskService.ExtractData extractor = new FlaskService.ExtractData();
+        List<FlaskService.ExtractData.Pair<String, FlaskService.ExtractData.Point>> extractedData = extractor.extractDataFromString(chatwords);
+        String formattedText = extractor.formatTextByYValue(extractedData);
+ */
+        Map<String, Object> chatWordsMap = new HashMap<>();
+
+
+        chatWordsMap.put("chatWords", chatwords);  //
+
+        return webClient.method(HttpMethod.POST)
+                .uri("/percentage")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(chatWordsMap)
+                .retrieve()
+                .bodyToMono(FlaskResponseDTO.class)
+                .doOnNext(response -> {
+                    log.info("resultNum: {}", response.getResultNum());
+                    log.info("doubtText1: {}", response.getDoubtText1());
+                    log.info("doubtText2: {}", response.getDoubtText2());
+                    log.info("doubtText3: {}", response.getDoubtText3());
+                    log.info("doubtText4: {}", response.getDoubtText4());
+                    log.info("doubtText5: {}", response.getDoubtText5());
+                });
+    }
 }
 
 

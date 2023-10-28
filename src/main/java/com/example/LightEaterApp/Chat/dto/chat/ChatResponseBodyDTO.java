@@ -27,11 +27,7 @@ public class ChatResponseBodyDTO {
         //this.anxietyScore = chatUploadRequestBodyDTO.getAnxietyScore();
         //this.testType = chatUploadRequestBodyDTO.getTestType();
         this.relation = chatUploadRequestBodyDTO.getRelation();
-        this.doubtText1 ="doubtText1";
-        this.doubtText2 ="doubtText2";
-        this.doubtText3 ="doubtText3";
-        this.doubtText4 ="doubtText4";
-        this.doubtText5 ="doubtText5";
+
     }
 /*
 
