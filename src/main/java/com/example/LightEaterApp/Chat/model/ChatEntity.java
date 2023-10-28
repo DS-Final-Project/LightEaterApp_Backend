@@ -6,10 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.net.URI;
 import java.util.Date;
 
@@ -26,7 +23,8 @@ public class ChatEntity {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String chatId;
 
-    private URI chatData;
+    @Column(length = 20000)
+    private String chatData;
 
 
     private String userId;
@@ -38,6 +36,8 @@ public class ChatEntity {
     private int relation;
     private String chatText;
     private String chatDate;
+    private String doubtText1;
+    private String doubtText2;
     //private String doubtSentence;
 
 

@@ -6,20 +6,24 @@ import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 
 
+import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.URIEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.persistence.URIRepository;
-import com.example.LightEaterApp.Chat.service.ChatService;
-import com.example.LightEaterApp.Chat.service.FlaskService;
-import com.example.LightEaterApp.Chat.service.UserService;
+import com.example.LightEaterApp.Chat.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,51 +40,121 @@ public class ChatController {
     private UserService userService;
     @Autowired
     private FlaskService flaskService;
+
     @Autowired
     private URIRepository uriRepository;
+    @Autowired
+    private ExtractDataService extractDataService;
+
+    @Autowired
+    private OcrService ocrService;
 
     //
-    @PostMapping("/img")
+    /*
+    @PostMapping("/imgUpload")
+    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file,@RequestParam("relation") String relation) {
+        // 파일 처리 로직
+        try {
+            //파일 로컬에 저장X
+            // 이미지 파일 처리
+            byte[] imageBytes = file.getBytes();
+            String originalFilename = file.getOriginalFilename();
+
+            // relation 값 처리
+            int relationValue = Integer.parseInt(relation);
+
+            //ocr 처리
+            String resultText = ocrService.detectText2(imageBytes);
+            log.info("resultText:{}",resultText);
+            log.info("resultText:{}",relation);
+
+
+            //flask에 보내기
+            return ResponseEntity.ok("File uploaded successfully");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Failed to upload file");
+        }
+
+    }
+
+     */
+    @PostMapping(value = "/img",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
-            @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
+            @RequestParam("image") MultipartFile file,
+            @RequestParam("relation") String relation
+            //@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
+    ) {
         try {
             Date chatDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
-            log.info("date:{}",formattedDate);
+            log.info("date:{}", formattedDate);
 
 
             //!!이부분은 로그인 구현시 userId 로 대체되어 들어갈 부분 ->로그인 구현시 삭제
             //String temporaryUserId = "userId";
 
             //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
-            ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
+            ChatEntity chatEntity = new ChatEntity();
             //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
 
+            int relationValue = 0;
+            try {
+                //파일 로컬에 저장X
+                // 이미지 파일 처리
+                byte[] imageBytes = file.getBytes();
+                String originalFilename = file.getOriginalFilename();
+
+                // relation 값 처리
+                relationValue = Integer.parseInt(relation);
+                log.info("ocr 하기 직전");
+
+                //ocr 처리
+                String resultText = ocrService.detectText2(imageBytes);
+                log.info("ocr 하기 이후");
+
+
+                chatEntity.setChatData(resultText);
+                log.info("resultText:{}", resultText);
+                log.info("relation:{}", relation);
+                log.info("relationValue:{}", relationValue);
+                //System.out.println(resultText);
+
+                //flask에 보내기
+                log.info("File uploaded successfully");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                log.info("Failed to upload file");
+            }
+            chatEntity.setRelation(relationValue);
             chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
-            chatEntity.setResultNum((int) (Math.random()*100));
+            chatEntity.setResultNum(81);
+
+            chatEntity.setDoubtText1("이게 노력하는사람 모습이가");
+            chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
+            //chatEntity.setResultNum((int) (Math.random() * 100));
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
-            if (chatUploadRequestBodyDTO.getRelation()==1){
+            if (relationValue == 1) {
                 userEntity.setRelation1(true);
 
-            } else if (chatUploadRequestBodyDTO.getRelation()==2) {
+            } else if (relationValue == 2) {
                 userEntity.setRelation2(true);
-            }
-            else if (chatUploadRequestBodyDTO.getRelation()==3) {
+            } else if (relationValue == 3) {
                 userEntity.setRelation3(true);
-            }
-            else if (chatUploadRequestBodyDTO.getRelation()==4) {
+            } else if (relationValue == 4) {
                 userEntity.setRelation4(true);
             }
-
 
 
             //!!여기는 userEntity에서 가져올 값
@@ -101,23 +175,28 @@ public class ChatController {
  */
 
 
-
-
-/*
 //flask 서버와 주고 받음
+/*
+            List<ExtractDataService.Pair<String, ExtractDataService.Point>> extractedData = extractDataService.extractDataFromString(chatEntity.getChatData());
+            log.info("extractedData:{}",extractedData);
+            String formattedText = extractDataService.formatTextByYValue(extractedData);
+            log.info("formattedText:{}",formattedText);
+*/
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords(chatEntity.getChatData()).block();
+            log.info("flaskService완료");
 
-            //int resultnum = flaskService.sendChatWords(entity.getChatWords()).block();
 
-            entity.setResultNum(resultnum);
+            chatEntity.setResultNum(flaskResponseDTO.getResultNum());
+            chatEntity.setDoubtText1(flaskResponseDTO.getDoubtText1());
+            chatEntity.setDoubtText2(flaskResponseDTO.getDoubtText2());
 
 
- */
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
             //!!로그인&자가진단 구현시 삭제될 부분
             //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
-
+/*
             URI imageUri = chatEntity.getChatData();
 
             try {
@@ -125,23 +204,27 @@ public class ChatController {
                 uriEntity.setUri(imageUri);
 
 
-
                 uriRepository.save(uriEntity);
                 log.info("File URI saved successfully.");
                 // return ResponseEntity.ok("File URI saved successfully.");
             } catch (Exception e) {
-                log.info("Failed to save file URI: "+ e.getMessage());
+                log.info("Failed to save file URI: " + e.getMessage());
                 //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
             }
 
+ */
 
 
-
+            //수정
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
-            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
-            resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
-            resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
-            resoponsebodyDTO.setTestType(userEntity.getTestType());
+            ChatResponseBodyDTO responsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
+
+            responsebodyDTO.setResultNum(chatEntity.getResultNum());
+            responsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
+            responsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
+            responsebodyDTO.setTestType(userEntity.getTestType());
+            responsebodyDTO.setDoubtText1(flaskResponseDTO.getDoubtText1());
+            responsebodyDTO.setDoubtText2(flaskResponseDTO.getDoubtText2());
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -185,7 +268,7 @@ public class ChatController {
 */
 
             ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
-                    .data(resoponsebodyDTO)
+                    .data(responsebodyDTO)
                     .build();
 
 
@@ -202,19 +285,63 @@ public class ChatController {
 //재수정22
 
 
-    @PostMapping("/file")
+    @PostMapping(value = "/file",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByFile(
             //@AuthenticationPrincipal String userId,
             @RequestHeader("email") String email,
-            @RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO) {
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("relation") String relation
+            ///@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
+    ) {
         try {
 
             Date chatDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
+            MultipartFile givenFile = new MultipartFile() {
+                @Override
+                public String getName() {
+                    return null;
+                }
 
+                @Override
+                public String getOriginalFilename() {
+                    return null;
+                }
 
+                @Override
+                public String getContentType() {
+                    return null;
+                }
+
+                @Override
+                public boolean isEmpty() {
+                    return false;
+                }
+
+                @Override
+                public long getSize() {
+                    return 0;
+                }
+
+                @Override
+                public byte[] getBytes() throws IOException {
+                    return new byte[0];
+                }
+
+                @Override
+                public InputStream getInputStream() throws IOException {
+                    return null;
+                }
+
+                @Override
+                public void transferTo(File dest) throws IOException, IllegalStateException {
+
+                }
+            };
+
+/*
 
 
             ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
@@ -243,7 +370,7 @@ public class ChatController {
             else if (chatUploadRequestBodyDTO.getRelation()==4) {
                 userEntity.setRelation4(true);
             }
-
+*/
 
             //userEntity.setUserId(email);
             //userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
@@ -259,19 +386,18 @@ public class ChatController {
 
 
 /*
-//flask 서버와 주고 받음
-
-            //int resultnum = flaskService.sendChatWords(entity.getChatWords()).block();
-
-            entity.setResultNum(resultnum);
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
- */         //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
-            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
-            log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
+            chatEntity.setResultNum(flaskResponseDTO.getResultNum());
+
+*/
+            //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
+            //List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
+            // log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
             //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
             //log.info("챗 컨트롤러 userEntities:{}",userEntities);
-
+/*
             URI fileUri = chatEntity.getChatData();
 
             try {
@@ -286,7 +412,8 @@ public class ChatController {
             }
 
 
-
+*/
+/*
 
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
             ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
@@ -295,7 +422,7 @@ public class ChatController {
             resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
             resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
             resoponsebodyDTO.setTestType(userEntity.getTestType());
-
+*/
 
 /*
             List<ChatUploadDTO> dtos = chatEntities.stream()
@@ -339,7 +466,7 @@ public class ChatController {
 */
 
             ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
-                    .data(resoponsebodyDTO)
+                    //.data(resoponsebodyDTO)
                     .build();
 
 
