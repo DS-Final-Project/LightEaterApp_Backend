@@ -9,7 +9,6 @@ import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 import com.example.LightEaterApp.Chat.dto.flask.FlaskResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
-import com.example.LightEaterApp.Chat.model.URIEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.persistence.URIRepository;
 import com.example.LightEaterApp.Chat.service.*;
@@ -21,14 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.List;
+import java.util.Scanner;
+
+import static com.example.LightEaterApp.Chat.service.FlaskService.ExtractData.extractConversations;
 
 @Slf4j
 @RestController
@@ -40,47 +39,13 @@ public class ChatController {
     private UserService userService;
     @Autowired
     private FlaskService flaskService;
-    //@Autowired
-    //private FlaskController flaskController;
+
     @Autowired
     private URIRepository uriRepository;
-    @Autowired
-    private ExtractDataService extractDataService;
 
     @Autowired
     private OcrService ocrService;
 
-    //
-    /*
-    @PostMapping("/imgUpload")
-    public ResponseEntity<?> uploadImage(@RequestParam("image") MultipartFile file,@RequestParam("relation") String relation) {
-        // 파일 처리 로직
-        try {
-            //파일 로컬에 저장X
-            // 이미지 파일 처리
-            byte[] imageBytes = file.getBytes();
-            String originalFilename = file.getOriginalFilename();
-
-            // relation 값 처리
-            int relationValue = Integer.parseInt(relation);
-
-            //ocr 처리
-            String resultText = ocrService.detectText2(imageBytes);
-            log.info("resultText:{}",resultText);
-            log.info("resultText:{}",relation);
-
-
-            //flask에 보내기
-            return ResponseEntity.ok("File uploaded successfully");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Failed to upload file");
-        }
-
-    }
-
-     */
     @PostMapping(value = "/img",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadChatByImage(
             //@AuthenticationPrincipal String userId,
@@ -157,62 +122,22 @@ public class ChatController {
             }
 
 
-            //!!여기는 userEntity에서 가져올 값
-            /*
-            userEntity.setUserId(jwtToken);
-            userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
-            userEntity.setName("사현희");
-
-             */
-            //!!현재 임의생성 추후 삭제
-            //float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
-            // float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
-/*
-            userEntity.setAnxietyScore(random1);
-            userEntity.setAvoidScore(random2);
-            userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
-
- */
 
 
-//flask 서버와 주고 받음
-/*
-            List<ExtractDataService.Pair<String, ExtractDataService.Point>> extractedData = extractDataService.extractDataFromString(chatEntity.getChatData());
-            log.info("extractedData:{}",extractedData);
-            String formattedText = extractDataService.formatTextByYValue(extractedData);
-            log.info("formattedText:{}",formattedText);
-*/
-            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords(chatEntity.getChatData()).block();
+            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWordsByImg(chatEntity.getChatData()).block();
             log.info("flaskService완료");
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
             chatEntity.setDoubtText1(flaskResponseDTO.getDoubtText1());
             chatEntity.setDoubtText2(flaskResponseDTO.getDoubtText2());
-
+            chatEntity.setDoubtText3(flaskResponseDTO.getDoubtText3());
+            chatEntity.setDoubtText4(flaskResponseDTO.getDoubtText4());
+            chatEntity.setDoubtText5(flaskResponseDTO.getDoubtText5());
 
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
             List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
-            //!!로그인&자가진단 구현시 삭제될 부분
-            //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
 
-/*
-            URI imageUri = chatEntity.getChatData();
-
-            try {
-                URIEntity uriEntity = new URIEntity();
-                uriEntity.setUri(imageUri);
-
-
-                uriRepository.save(uriEntity);
-                log.info("File URI saved successfully.");
-                // return ResponseEntity.ok("File URI saved successfully.");
-            } catch (Exception e) {
-                log.info("Failed to save file URI: " + e.getMessage());
-                //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
-            }
-
- */
 
 
             //수정
@@ -225,47 +150,11 @@ public class ChatController {
             responsebodyDTO.setTestType(userEntity.getTestType());
             responsebodyDTO.setDoubtText1(flaskResponseDTO.getDoubtText1());
             responsebodyDTO.setDoubtText2(flaskResponseDTO.getDoubtText2());
-
-/*
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .flatMap(chatEntity1 -> userEntities.stream().map(userEntity1 -> new ChatUploadDTO(chatEntity, userEntity)))
-                    .collect(Collectors.toList());
-/*
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .map(ChatUploadDTO::new)
-                    .collect(Collectors.toList());
-
-             dtos.addAll( userEntities.stream()
-                    .map(ChatUploadDTO::new)
-                    .collect(Collectors.toList())
-             );
+            responsebodyDTO.setDoubtText3(flaskResponseDTO.getDoubtText3());
+            responsebodyDTO.setDoubtText4(flaskResponseDTO.getDoubtText4());
+            responsebodyDTO.setDoubtText5(flaskResponseDTO.getDoubtText5());
 
 
- /*
-            //이부분은 리스트로 보내줄시 사용 -> 현재는 리스트가 아닌 한 채팅에 대해서만 보내주는 중
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .map(entity -> new ChatUploadDTO(chatEntity, null))
-                    .collect(Collectors.toList());
-            dtos = userEntities.stream()
-                    .map(entity -> new ChatUploadDTO(null, userEntity))
-                    .collect(Collectors.toList());
-
-
-/*
-            List<ChatResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(ChatResponseBodyDTO::new)
-                    .collect(Collectors.toList());\
-
-
-            List<ChatResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(entity -> new ChatResponseBodyDTO(chatEntity, null))
-                    .collect(Collectors.toList());
-
-            dtos.addAll(userEntities.stream()
-                    .map(entity -> new ChatResponseBodyDTO(null, userEntity))
-                    .collect(Collectors.toList()));
-
-*/
 
             ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
                     .data(responsebodyDTO)
@@ -299,174 +188,123 @@ public class ChatController {
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
-            MultipartFile givenFile = new MultipartFile() {
-                @Override
-                public String getName() {
-                    return null;
-                }
 
-                @Override
-                public String getOriginalFilename() {
-                    return null;
-                }
-
-                @Override
-                public String getContentType() {
-                    return null;
-                }
-
-                @Override
-                public boolean isEmpty() {
-                    return false;
-                }
-
-                @Override
-                public long getSize() {
-                    return 0;
-                }
-
-                @Override
-                public byte[] getBytes() throws IOException {
-                    return new byte[0];
-                }
-
-                @Override
-                public InputStream getInputStream() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public void transferTo(File dest) throws IOException, IllegalStateException {
-
-                }
-            };
-
-/*
-
-
-            ChatEntity chatEntity = ChatUploadRequestBodyDTO.toChatEntity(chatUploadRequestBodyDTO);
+            //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
+            ChatEntity chatEntity = new ChatEntity();
             //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
-            //userEntity의 userEmail, name없음
-            //userEntity.setUserId(null);
+            //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
 
+            int relationValue = 0;
+            //relation 변환해서 저장
+            relationValue = Integer.parseInt(relation);
+            FlaskResponseDTO flaskResponseDTO = new FlaskResponseDTO();
+
+
+
+            try {
+                //multipartfile text파일로 저장.
+                InputStream initialStream = file.getInputStream();
+                byte[] buffer = new byte[initialStream.available()];
+                initialStream.read(buffer);
+
+                File targetFile = new File("src/main/resources/targetFile.txt");
+
+                try (OutputStream outStream = new FileOutputStream(targetFile)) {
+                    outStream.write(buffer);
+                }
+                initialStream.close();
+
+                String line="";
+
+                //text파일 엔터 넣어주면서 읽기.
+                Scanner scanner = new Scanner(new File("src/main/resources/targetFile.txt"));
+                while(scanner.hasNextLine()){
+                    String str = scanner.nextLine();
+                    line = line + str + "\n";
+                    System.out.println(str);
+                }
+
+                //자바에서 텍스트 변환
+                List<String> fileContent_list = extractConversations(line);
+                //System.out.println(fileContent_list);
+                //System.out.println(fileContent_list2);
+                System.out.println(fileContent_list);
+
+                //리스트를 인공지능에 보내줄 string변수로 바꾸기.
+                String result = String.join("\n", fileContent_list);
+                System.out.println("resultText:-------\n"+result);
+
+
+                //flask에 보내기(result)
+                flaskResponseDTO = flaskService.sendChatWordsByFile(result).block();
+                log.info("flaskService완료");
+
+                chatEntity.setChatData(result);
+                log.info("resultText:{}", result);
+                log.info("relation:{}", relation);
+                log.info("relationValue:{}", relationValue);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.badRequest().body("Failed to upload file");
+            }
+
+            chatEntity.setRelation(relationValue);
             chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
 
-            //임의설정
-            chatEntity.setResultNum((int) (Math.random()*100));
+
+
+
 
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
-
-            if (chatUploadRequestBodyDTO.getRelation()==1){
+            if (relationValue == 1) {
                 userEntity.setRelation1(true);
 
-            } else if (chatUploadRequestBodyDTO.getRelation()==2) {
+            } else if (relationValue == 2) {
                 userEntity.setRelation2(true);
-            }
-            else if (chatUploadRequestBodyDTO.getRelation()==3) {
+            } else if (relationValue == 3) {
                 userEntity.setRelation3(true);
-            }
-            else if (chatUploadRequestBodyDTO.getRelation()==4) {
+            } else if (relationValue == 4) {
                 userEntity.setRelation4(true);
             }
-*/
-
-            //userEntity.setUserId(email);
-            //userEntity.setUserEmail("4hyunhee@duksung.ac.kr");
-            //userEntity.setName("사현희");
-            //float random1 = ((float) (Math.round(Math.random()*1000)/100.0));
-            //float random2 = ((float) (Math.round(Math.random()*1000)/100.0));
-
-            //userEntity.setAnxietyScore(random1);
-            //userEntity.setAvoidScore(random2);
-            //userEntity.setTestType(((int) (((Math.random()*10)%4)+1))); //1,2,3,4
-
-
-
-
-/*
-            FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWords().block();
 
 
             chatEntity.setResultNum(flaskResponseDTO.getResultNum());
+            chatEntity.setDoubtText1(flaskResponseDTO.getDoubtText1());
+            chatEntity.setDoubtText2(flaskResponseDTO.getDoubtText2());
+            chatEntity.setDoubtText3(flaskResponseDTO.getDoubtText3());
+            chatEntity.setDoubtText4(flaskResponseDTO.getDoubtText4());
+            chatEntity.setDoubtText5(flaskResponseDTO.getDoubtText5());
 
-*/
+
             //프론트에서 보내주면 전체 db말고 해당chatId entity만 리턴
-            //List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
-           // log.info("챗 컨트롤러 chatEntities:{}",chatEntities);
-            //List<UserEntity> userEntities = userService.createUserEntity(userEntity);
-            //log.info("챗 컨트롤러 userEntities:{}",userEntities);
-/*
-            URI fileUri = chatEntity.getChatData();
-
-            try {
-                URIEntity uriEntity = new URIEntity();
-                uriEntity.setUri(fileUri);
-                uriRepository.save(uriEntity);
-                log.info("File URI saved successfully.");
-                // return ResponseEntity.ok("File URI saved successfully.");
-            } catch (Exception e) {
-                log.info("Failed to save file URI: "+ e.getMessage());
-                //return ResponseEntity.badRequest().body("Failed to save file URI: " + e.getMessage());
-            }
+            List<ChatEntity> chatEntities = chatService.createChatEntity(chatEntity);
 
 
-*/
-/*
 
+            //수정
             ChatUploadRequestBodyDTO chatUploadRequestBodyDTO1 = new ChatUploadRequestBodyDTO(chatEntity);
-            ChatResponseBodyDTO resoponsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
+            ChatResponseBodyDTO responsebodyDTO = new ChatResponseBodyDTO(chatUploadRequestBodyDTO1);
 
-            resoponsebodyDTO.setResultNum(chatEntity.getResultNum());
-            resoponsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
-            resoponsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
-            resoponsebodyDTO.setTestType(userEntity.getTestType());
-*/
-
-/*
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .flatMap(chatEntity1 -> userEntities.stream().map(userEntity1 -> new ChatUploadDTO(chatEntity, userEntity)))
-                    .collect(Collectors.toList());
-/*
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .map(ChatUploadDTO::new)
-                    .collect(Collectors.toList());
-
-             dtos.addAll( userEntities.stream()
-                    .map(ChatUploadDTO::new)
-                    .collect(Collectors.toList())
-             );
+            responsebodyDTO.setResultNum(chatEntity.getResultNum());
+            responsebodyDTO.setAnxietyScore(userEntity.getAnxietyScore());
+            responsebodyDTO.setAvoidScore(userEntity.getAvoidScore());
+            responsebodyDTO.setTestType(userEntity.getTestType());
+            responsebodyDTO.setDoubtText1(flaskResponseDTO.getDoubtText1());
+            responsebodyDTO.setDoubtText2(flaskResponseDTO.getDoubtText2());
+            responsebodyDTO.setDoubtText3(flaskResponseDTO.getDoubtText3());
+            responsebodyDTO.setDoubtText4(flaskResponseDTO.getDoubtText4());
+            responsebodyDTO.setDoubtText5(flaskResponseDTO.getDoubtText5());
 
 
- /*
-
-            List<ChatUploadDTO> dtos = chatEntities.stream()
-                    .map(entity -> new ChatUploadDTO(chatEntity, null))
-                    .collect(Collectors.toList());
-            dtos = userEntities.stream()
-                    .map(entity -> new ChatUploadDTO(null, userEntity))
-                    .collect(Collectors.toList());
 
 
-/*
-            List<ChatResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(ChatResponseBodyDTO::new)
-                    .collect(Collectors.toList());\
-
-
-            List<ChatResponseBodyDTO> dtos = chatEntities.stream()
-                    .map(entity -> new ChatResponseBodyDTO(chatEntity, null))
-                    .collect(Collectors.toList());
-
-            dtos.addAll(userEntities.stream()
-                    .map(entity -> new ChatResponseBodyDTO(null, userEntity))
-                    .collect(Collectors.toList()));
-
-*/
 
             ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
-                    //.data(resoponsebodyDTO)
+                    .data(responsebodyDTO)
                     .build();
 
 
