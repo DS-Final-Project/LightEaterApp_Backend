@@ -39,6 +39,11 @@ public class ChatEntity {
     private String chatDate;
     private String doubtText1;
     private String doubtText2;
+    private String doubtText3;
+    private String doubtText4;
+    private String doubtText5;
+
+
 
 
 /*
