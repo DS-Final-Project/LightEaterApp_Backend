@@ -4,6 +4,7 @@ import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ResponseListDTO;
+import com.example.LightEaterApp.Chat.dto.solution.SolutionDetailDTO;
 import com.example.LightEaterApp.Chat.dto.solution.SolutionResponseDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.SolutionEntity;
@@ -32,7 +33,30 @@ public class SolutionController {
     @Autowired
     private UserService userService;
 
-//git kraken
+
+    @GetMapping("/detail")
+    public ResponseEntity<List<SolutionDetailDTO>> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId)
+    {
+        try {
+            List<SolutionDetailDTO> solutionDetails =  solutionService.getSolutionDetails(requestSolutionId);
+
+            if(solutionDetails.isEmpty()) {
+                String error = "Solution detail not found for solutionId: " + requestSolutionId;
+
+                return ResponseEntity.badRequest().body(solutionDetails);
+            } else {
+                return ResponseEntity.ok(solutionDetails);
+            }
+        }
+        catch(Exception e) {
+            String error = "Error while fetching solution detail: " + e.getMessage();
+            return ResponseEntity.badRequest().body(null);
+
+        }
+    }
+
+
+    //git kraken
     @GetMapping
     public ResponseEntity<?> getSolution(
             @RequestHeader("email") String email) {
