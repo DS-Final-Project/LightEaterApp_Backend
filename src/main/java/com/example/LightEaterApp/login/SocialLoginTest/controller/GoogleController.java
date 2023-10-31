@@ -34,23 +34,23 @@ public class GoogleController {
     GoogleController(ConfigUtils configUtils) {
         this.configUtils = configUtils;
     }
-/*
-    @GetMapping(value = "/login")
-    public ResponseEntity<Object> moveGoogleInitUrl() {
-        String authUrl = configUtils.googleInitUrl();
-        URI redirectUri = null;
-        try {
-            redirectUri = new URI(authUrl);
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setLocation(redirectUri);
-            return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    /*
+        @GetMapping(value = "/login")
+        public ResponseEntity<Object> moveGoogleInitUrl() {
+            String authUrl = configUtils.googleInitUrl();
+            URI redirectUri = null;
+            try {
+                redirectUri = new URI(authUrl);
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.setLocation(redirectUri);
+                return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
 
-        return ResponseEntity.badRequest().build();
-    }
-*/
+            return ResponseEntity.badRequest().build();
+        }
+    */
     @PostMapping(value = "/login/redirect")
     public ResponseEntity<?> redirectGoogleLogin(@RequestBody GoogleLoginResponse googleLoginResponse) {
         // HTTP 통신을 위해 RestTemplate 활용
