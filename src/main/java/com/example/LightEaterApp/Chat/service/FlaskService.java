@@ -20,7 +20,7 @@ public class FlaskService {
     private final WebClient webClient;
 
     public FlaskService(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://50.112.182.36:5000").build();
+        this.webClient = webClientBuilder.baseUrl("http://172.20.10.6:5000").build();
     }
 
     public static class ExtractData {

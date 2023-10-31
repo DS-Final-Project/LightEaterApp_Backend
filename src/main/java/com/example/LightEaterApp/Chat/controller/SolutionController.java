@@ -35,17 +35,23 @@ public class SolutionController {
 
 
     @GetMapping("/detail")
-    public ResponseEntity<List<SolutionDetailDTO>> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId)
+    public ResponseEntity<?> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId)
     {
         try {
             List<SolutionDetailDTO> solutionDetails =  solutionService.getSolutionDetails(requestSolutionId);
+            log.info("solutionDetails:{}", solutionDetails);
+
+            ResponseListDTO response = ResponseListDTO.<SolutionDetailDTO>builder()
+                    .data(solutionDetails)
+                    .build();
+            log.info("response:{}",response);
 
             if(solutionDetails.isEmpty()) {
                 String error = "Solution detail not found for solutionId: " + requestSolutionId;
 
                 return ResponseEntity.badRequest().body(solutionDetails);
             } else {
-                return ResponseEntity.ok(solutionDetails);
+                return ResponseEntity.ok(response);
             }
         }
         catch(Exception e) {
@@ -82,9 +88,9 @@ public class SolutionController {
 
                 SolutionEntity solutionEntity2 = new SolutionEntity();
                 solutionEntity1.setSolutionId("2");
-                solutionEntity2.setKeyword("keyword2");
+                solutionEntity2.setKeyword("갈등");
                 solutionEntity2.setRelation(1);
-                solutionEntity2.setSolutionTitle("title2");
+                solutionEntity2.setSolutionTitle("연인과 갈등을 극복하는 방법");
                 solutionEntity2.setSolutionContent("content2");
                 solutionService.createSolutionEntity(solutionEntity2);
                 solutionEntities.add(solutionEntity2);
@@ -93,18 +99,18 @@ public class SolutionController {
             if (userEntity.isRelation2()) {
                 SolutionEntity solutionEntity3 = new SolutionEntity();
                 solutionEntity3.setSolutionId("3");
-                solutionEntity3.setKeyword("keyword3");
+                solutionEntity3.setKeyword("기준");
                 solutionEntity3.setRelation(2);
-                solutionEntity3.setSolutionTitle("title3");
+                solutionEntity3.setSolutionTitle("멀리해야 할 친구의 기준");
                 solutionEntity3.setSolutionContent("content3");
                 solutionService.createSolutionEntity(solutionEntity3);
                 solutionEntities.add(solutionEntity3);
 
                 SolutionEntity solutionEntity4 = new SolutionEntity();
                 solutionEntity4.setSolutionId("4");
-                solutionEntity4.setKeyword("keyword4");
+                solutionEntity4.setKeyword("방법");
                 solutionEntity4.setRelation(2);
-                solutionEntity4.setSolutionTitle("title4");
+                solutionEntity4.setSolutionTitle("점진적 페이드 아웃");
                 solutionEntity4.setSolutionContent("content4");
                 solutionService.createSolutionEntity(solutionEntity4);
                 solutionEntities.add(solutionEntity4);
