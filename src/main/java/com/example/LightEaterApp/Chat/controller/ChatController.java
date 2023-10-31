@@ -208,7 +208,7 @@ public class ChatController {
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
 
-                File targetFile = new File("src/main/resources/targetFile.txt");
+                File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
 
                 try (OutputStream outStream = new FileOutputStream(targetFile)) {
                     outStream.write(buffer);
