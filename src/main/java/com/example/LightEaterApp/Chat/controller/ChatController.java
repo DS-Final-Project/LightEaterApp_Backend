@@ -208,9 +208,11 @@ public class ChatController {
                 InputStream initialStream = file.getInputStream();
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
+                log.info("targetfile생성전");
 
                 //File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
                 File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
+                log.info("targetfile생성후");
 
 
                 try (OutputStream outStream = new FileOutputStream(targetFile)) {
@@ -219,10 +221,12 @@ public class ChatController {
                 initialStream.close();
 
                 String line="";
+                log.info("1");
 
                 //text파일 엔터 넣어주면서 읽기.
                 //Scanner scanner = new Scanner(new File("build/resources/main/targetFile.txt"));
                 Scanner scanner = new Scanner(new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt"));
+                log.info("2");
 
 
                 while(scanner.hasNextLine()){
@@ -230,6 +234,7 @@ public class ChatController {
                     line = line + str + "\n";
                     System.out.println(str);
                 }
+                log.info("3");
 
                 //자바에서 텍스트 변환
                 List<String> fileContent_list = extractConversations(line);
