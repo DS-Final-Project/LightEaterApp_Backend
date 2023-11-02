@@ -210,7 +210,7 @@ public class ChatController {
                 initialStream.read(buffer);
 
                 //File targetFile = new File("build/resources/main/targetFile.txt");
-                File targetFile = new File(" src/main/resources/targetFile.txt");
+                File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
 
 
                 try (OutputStream outStream = new FileOutputStream(targetFile)) {
