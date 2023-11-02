@@ -224,6 +224,7 @@ public class ChatController {
                 //Scanner scanner = new Scanner(new File("build/resources/main/targetFile.txt"));
                 Scanner scanner = new Scanner(new File("src/main/resources/targetFile.txt"));
 
+
                 while(scanner.hasNextLine()){
                     String str = scanner.nextLine();
                     line = line + str + "\n";
