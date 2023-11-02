@@ -195,18 +195,23 @@ public class ChatController {
             //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
-
+            log.info("일");
             int relationValue = 0;
             //relation 변환해서 저장
             relationValue = Integer.parseInt(relation);
+            log.info("이");
             FlaskResponseDTO flaskResponseDTO = new FlaskResponseDTO();
+            log.info("삼");
 
 
 
             try {
+                log.info("사");
                 //multipartfile text파일로 저장.
                 InputStream initialStream = file.getInputStream();
+                log.info("오");
                 byte[] buffer = new byte[initialStream.available()];
+                log.info("육");
                 initialStream.read(buffer);
                 log.info("targetfile생성전");
 
