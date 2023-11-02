@@ -190,8 +190,11 @@ public class ChatController {
             String formattedDate = dateFormat.format(chatDate);
             log.info("date:{}",formattedDate);
 
+            log.info("chatEntity생성전");
+
             //!!이부분에서는 사실 ChatEntity만 생성  UserEntity는 생성되어있는 것을 가져와야함.-> 추후 수정
             ChatEntity chatEntity = new ChatEntity();
+            log.info("chatEntity생성");
             //UserEntity userEntity = ChatUploadRequestBodyDTO.toUserEntity(chatUploadRequestBodyDTO);
 
             //!!userEntity의 userEmail, name없음 나중에 로그인 후 추가
