@@ -219,7 +219,7 @@ public class ChatController {
                 log.info("targetfile생성전");
 
                 //File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
-                File targetFile = new File("home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
+                File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
                 log.info("targetfile생성후");
 
 
@@ -233,7 +233,7 @@ public class ChatController {
 
                 //text파일 엔터 넣어주면서 읽기.
                 //Scanner scanner = new Scanner(new File("build/resources/main/targetFile.txt"));
-                Scanner scanner = new Scanner(new File("home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt"));
+                Scanner scanner = new Scanner(new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt"));
                 log.info("2");
 
 
