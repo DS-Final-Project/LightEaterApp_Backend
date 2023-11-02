@@ -42,6 +42,9 @@ public class MypageController {
             PreviousMypageResponsebodyDTO dto = new PreviousMypageResponsebodyDTO(chatEntity,userEntity);
             dto.setDoubtText1(chatEntity.getDoubtText1());
             dto.setDoubtText2(chatEntity.getDoubtText2());
+            dto.setDoubtText3(chatEntity.getDoubtText3());
+            dto.setDoubtText4(chatEntity.getDoubtText4());
+            dto.setDoubtText5(chatEntity.getDoubtText5());
 
 
 

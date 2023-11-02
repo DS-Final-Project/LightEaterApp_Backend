@@ -123,6 +123,7 @@ public class ChatController {
 
 
 
+
             FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWordsByImg(chatEntity.getChatData()).block();
             log.info("flaskService완료");
 
@@ -180,7 +181,11 @@ public class ChatController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("relation") String relation
             ///@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
+<<<<<<<<< Temporary merge branch 1
     ) {
+=========
+            ) {
+>>>>>>>>> Temporary merge branch 2
         try {
 
             Date chatDate = new Date();
@@ -207,7 +212,6 @@ public class ChatController {
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
 
-                //File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
                 File targetFile = new File("src/main/resources/targetFile.txt");
 
                 try (OutputStream outStream = new FileOutputStream(targetFile)) {
