@@ -123,7 +123,6 @@ public class ChatController {
 
 
 
-
             FlaskResponseDTO flaskResponseDTO = flaskService.sendChatWordsByImg(chatEntity.getChatData()).block();
             log.info("flaskService완료");
 
