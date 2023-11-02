@@ -210,7 +210,7 @@ public class ChatController {
                 initialStream.read(buffer);
 
                 //File targetFile = new File("build/resources/main/targetFile.txt");
-                File targetFile = new File("/home/ec2-user/LightEaterApp_Backend/src/main/resources/targetFile.txt");
+                File targetFile = new File("src/main/resources/targetFile.txt");
 
 
                 try (OutputStream outStream = new FileOutputStream(targetFile)) {
@@ -222,7 +222,7 @@ public class ChatController {
 
                 //text파일 엔터 넣어주면서 읽기.
                 //Scanner scanner = new Scanner(new File("build/resources/main/targetFile.txt"));
-                Scanner scanner = new Scanner(new File(" src/main/resources/targetFile.txt"));
+                Scanner scanner = new Scanner(new File("src/main/resources/targetFile.txt"));
 
                 while(scanner.hasNextLine()){
                     String str = scanner.nextLine();
