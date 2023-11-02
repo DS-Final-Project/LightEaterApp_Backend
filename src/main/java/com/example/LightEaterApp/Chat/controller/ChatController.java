@@ -181,11 +181,8 @@ public class ChatController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("relation") String relation
             ///@RequestBody ChatUploadRequestBodyDTO chatUploadRequestBodyDTO
-<<<<<<<<< Temporary merge branch 1
     ) {
-=========
-            ) {
->>>>>>>>> Temporary merge branch 2
+
         try {
 
             Date chatDate = new Date();
@@ -212,7 +209,7 @@ public class ChatController {
                 byte[] buffer = new byte[initialStream.available()];
                 initialStream.read(buffer);
 
-                File targetFile = new File("src/main/resources/targetFile.txt");
+                File targetFile = new File("/build/resources/main/targetFile.txt");
 
                 try (OutputStream outStream = new FileOutputStream(targetFile)) {
                     outStream.write(buffer);
@@ -222,7 +219,7 @@ public class ChatController {
                 String line="";
 
                 //text파일 엔터 넣어주면서 읽기.
-                Scanner scanner = new Scanner(new File("src/main/resources/targetFile.txt"));
+                Scanner scanner = new Scanner(new File("/build/resources/main/targetFile.txt"));
                 while(scanner.hasNextLine()){
                     String str = scanner.nextLine();
                     line = line + str + "\n";
