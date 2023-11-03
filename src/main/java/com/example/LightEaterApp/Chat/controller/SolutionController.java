@@ -1,14 +1,10 @@
 package com.example.LightEaterApp.Chat.controller;
 
-import com.example.LightEaterApp.Chat.dto.chat.ChatResponseBodyDTO;
-import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
-import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ResponseListDTO;
 import com.example.LightEaterApp.Chat.dto.solution.SolutionDetailDTO;
-import com.example.LightEaterApp.Chat.dto.solution.SolutionResponseDTO;
-import com.example.LightEaterApp.Chat.model.ChatEntity;
+import com.example.LightEaterApp.Chat.dto.solution.SolutionResponseBodyDTO;
+import com.example.LightEaterApp.Chat.model.SolutionDetailEntity;
 import com.example.LightEaterApp.Chat.model.SolutionEntity;
-import com.example.LightEaterApp.Chat.model.URIEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.SolutionService;
 import com.example.LightEaterApp.Chat.service.UserService;
@@ -17,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,35 +29,6 @@ public class SolutionController {
     private UserService userService;
 
 
-    @GetMapping("/detail")
-    public ResponseEntity<?> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId)
-    {
-        try {
-            List<SolutionDetailDTO> solutionDetails =  solutionService.getSolutionDetails(requestSolutionId);
-            log.info("solutionDetails:{}", solutionDetails);
-
-            ResponseListDTO response = ResponseListDTO.<SolutionDetailDTO>builder()
-                    .data(solutionDetails)
-                    .build();
-            log.info("response:{}",response);
-
-            if(solutionDetails.isEmpty()) {
-                String error = "Solution detail not found for solutionId: " + requestSolutionId;
-
-                return ResponseEntity.badRequest().body(solutionDetails);
-            } else {
-                return ResponseEntity.ok(response);
-            }
-        }
-        catch(Exception e) {
-            String error = "Error while fetching solution detail: " + e.getMessage();
-            return ResponseEntity.badRequest().body(null);
-
-        }
-    }
-
-
-    //git kraken
     @GetMapping
     public ResponseEntity<?> getSolution(
             @RequestHeader("email") String email) {
@@ -79,18 +45,18 @@ public class SolutionController {
             if (userEntity.isRelation1()) {
                 SolutionEntity solutionEntity1 = new SolutionEntity();
                 solutionEntity1.setSolutionId("1");
-                solutionEntity1.setKeyword("대화");
+                solutionEntity1.setKeyword("속박");
                 solutionEntity1.setRelation(1);
-                solutionEntity1.setSolutionTitle("연인과 대화하는 방법");
+                solutionEntity1.setSolutionTitle("갈등해결 방법이 \n궁금하세요?");
                 solutionEntity1.setSolutionContent("content1");
                 solutionService.createSolutionEntity(solutionEntity1);
                 solutionEntities.add(solutionEntity1);
 
                 SolutionEntity solutionEntity2 = new SolutionEntity();
                 solutionEntity1.setSolutionId("2");
-                solutionEntity2.setKeyword("갈등");
+                solutionEntity2.setKeyword("집착");
                 solutionEntity2.setRelation(1);
-                solutionEntity2.setSolutionTitle("연인과 갈등을 극복하는 방법");
+                solutionEntity2.setSolutionTitle("대처 방안을 \n찾고 계시나요?");
                 solutionEntity2.setSolutionContent("content2");
                 solutionService.createSolutionEntity(solutionEntity2);
                 solutionEntities.add(solutionEntity2);
@@ -99,18 +65,18 @@ public class SolutionController {
             if (userEntity.isRelation2()) {
                 SolutionEntity solutionEntity3 = new SolutionEntity();
                 solutionEntity3.setSolutionId("3");
-                solutionEntity3.setKeyword("기준");
+                solutionEntity3.setKeyword("왕따");
                 solutionEntity3.setRelation(2);
-                solutionEntity3.setSolutionTitle("멀리해야 할 친구의 기준");
+                solutionEntity3.setSolutionTitle("가스라이터 친구 유형을 \n알려드려요!");
                 solutionEntity3.setSolutionContent("content3");
                 solutionService.createSolutionEntity(solutionEntity3);
                 solutionEntities.add(solutionEntity3);
 
                 SolutionEntity solutionEntity4 = new SolutionEntity();
                 solutionEntity4.setSolutionId("4");
-                solutionEntity4.setKeyword("방법");
+                solutionEntity4.setKeyword("험담");
                 solutionEntity4.setRelation(2);
-                solutionEntity4.setSolutionTitle("점진적 페이드 아웃");
+                solutionEntity4.setSolutionTitle("친구 간의 가스라이팅 \n대처 방안을 찾고 있나요?");
                 solutionEntity4.setSolutionContent("content4");
                 solutionService.createSolutionEntity(solutionEntity4);
                 solutionEntities.add(solutionEntity4);
@@ -120,17 +86,17 @@ public class SolutionController {
             if (userEntity.isRelation3()) {
                 SolutionEntity solutionEntity5 = new SolutionEntity();
                 solutionEntity5.setSolutionId("5");
-                solutionEntity5.setKeyword("keyword5");
+                solutionEntity5.setKeyword("무시");
                 solutionEntity5.setRelation(3);
-                solutionEntity5.setSolutionTitle("title5");
+                solutionEntity5.setSolutionTitle("어떤 소통 방식을 \n취해야 할까요?");
                 solutionEntity5.setSolutionContent("content5");
                 solutionService.createSolutionEntity(solutionEntity5);
                 solutionEntities.add(solutionEntity5);
                 SolutionEntity solutionEntity6 = new SolutionEntity();
                 solutionEntity6.setSolutionId("6");
-                solutionEntity6.setKeyword("keyword6");
+                solutionEntity6.setKeyword("비난");
                 solutionEntity6.setRelation(3);
-                solutionEntity6.setSolutionTitle("title6");
+                solutionEntity6.setSolutionTitle("상황에 따른 대처 방안이 \n궁금하신가요?");
                 solutionEntity6.setSolutionContent("content6");
                 solutionService.createSolutionEntity(solutionEntity6);
                 solutionEntities.add(solutionEntity6);
@@ -139,170 +105,213 @@ public class SolutionController {
             if (userEntity.isRelation4()) {
                 SolutionEntity solutionEntity7 = new SolutionEntity();
                 solutionEntity7.setSolutionId("7");
-                solutionEntity7.setKeyword("keyword7");
+                solutionEntity7.setKeyword("강요");
                 solutionEntity7.setRelation(4);
-                solutionEntity7.setSolutionTitle("title7");
+                solutionEntity7.setSolutionTitle("나를 위해 취해야 하는 \n자세는 무엇일까요?");
                 solutionEntity7.setSolutionContent("content7");
                 solutionService.createSolutionEntity(solutionEntity7);
                 solutionEntities.add(solutionEntity7);
                 SolutionEntity solutionEntity8 = new SolutionEntity();
                 solutionEntity7.setSolutionId("8");
-                solutionEntity8.setKeyword("keyword8");
+                solutionEntity8.setKeyword("통제");
                 solutionEntity8.setRelation(4);
-                solutionEntity8.setSolutionTitle("title8");
+                solutionEntity8.setSolutionTitle("나에 대한 확신이 없을 때 \n어떻게 해야 할까요?");
                 solutionEntity8.setSolutionContent("content8");
                 solutionService.createSolutionEntity(solutionEntity8);
                 solutionEntities.add(solutionEntity8);
             }
 
             // 솔루션 엔티티를 DTO로 변환
-            List<SolutionResponseDTO> dtos = solutionEntities.stream()
-                    .map(SolutionResponseDTO::new)
+            List<SolutionResponseBodyDTO> dtos = solutionEntities.stream()
+                    .map(SolutionResponseBodyDTO::new)
                     .collect(Collectors.toList());
             log.info("solutionDTO:{} ",dtos.toString());
 
-            ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
+            ResponseListDTO response = ResponseListDTO.<SolutionResponseBodyDTO>builder()
                     .data(dtos)
                     .build();
 
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             String error = e.getMessage();
-            ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
+            ResponseListDTO response = ResponseListDTO.<SolutionResponseBodyDTO>builder()
                     .error(error).build();
 
             return ResponseEntity.badRequest().body(response);
         }
     }
-    }
-/*
+
+
+    @GetMapping("/detail")
+    public ResponseEntity<?> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId) {
         try {
-            //db연결시 삭제할 부분---------------------------------------------
-            List<SolutionEntity> entities = new ArrayList<>();
-            SolutionEntity solutionEntity1 = new SolutionEntity();
-            solutionEntity1.setSolutionId("1");
-            solutionEntity1.setKeyword("keyword1");
-            solutionEntity1.setRelation(1);
-            solutionEntity1.setSolutionTitle("title1");
-            solutionEntity1.setSolutionContent("content1");
-            log.info("solutionEntity1:{}",solutionEntity1);
-            solutionService.createSolutionEntity(solutionEntity1);
-            entities.add(solutionEntity1);
 
-            SolutionEntity solutionEntity2 = new SolutionEntity();
-            solutionEntity1.setSolutionId("2");
-            solutionEntity2.setKeyword("keyword2");
-            solutionEntity2.setRelation(1);
-            solutionEntity2.setSolutionTitle("title2");
-            solutionEntity2.setSolutionContent("content2");
-            solutionService.createSolutionEntity(solutionEntity2);
-            entities.add(solutionEntity2);
+            SolutionDetailEntity solutionDetailEntity = solutionService.retrieveSolutionDetailByEntity(requestSolutionId);
 
-            SolutionEntity solutionEntity3 = new SolutionEntity();
-            solutionEntity1.setSolutionId("3");
-            solutionEntity3.setKeyword("keyword3");
-            solutionEntity3.setRelation(2);
-            solutionEntity3.setSolutionTitle("title3");
-            solutionEntity3.setSolutionContent("content3");
-            solutionService.createSolutionEntity(solutionEntity3);
-            entities.add(solutionEntity3);
-
-            SolutionEntity solutionEntity4 = new SolutionEntity();
-            solutionEntity1.setSolutionId("4");
-            solutionEntity4.setKeyword("keyword4");
-            solutionEntity4.setRelation(2);
-            solutionEntity4.setSolutionTitle("title4");
-            solutionEntity4.setSolutionContent("content4");
-            solutionService.createSolutionEntity(solutionEntity4);
-            entities.add(solutionEntity4);
-
-            SolutionEntity solutionEntity5 = new SolutionEntity();
-            solutionEntity1.setSolutionId("5");
-            solutionEntity5.setKeyword("keyword5");
-            solutionEntity5.setRelation(3);
-            solutionEntity5.setSolutionTitle("title5");
-            solutionEntity5.setSolutionContent("content5");
-            solutionService.createSolutionEntity(solutionEntity5);
-            entities.add(solutionEntity5);
-            SolutionEntity solutionEntity6 = new SolutionEntity();
-            solutionEntity1.setSolutionId("6");
-            solutionEntity6.setKeyword("keyword6");
-            solutionEntity6.setRelation(3);
-            solutionEntity6.setSolutionTitle("title6");
-            solutionEntity6.setSolutionContent("content6");
-            solutionService.createSolutionEntity(solutionEntity6);
-            entities.add(solutionEntity6);
-
-            SolutionEntity solutionEntity7 = new SolutionEntity();
-            solutionEntity1.setSolutionId("7");
-            solutionEntity7.setKeyword("keyword7");
-            solutionEntity7.setRelation(4);
-            solutionEntity7.setSolutionTitle("title7");
-            solutionEntity7.setSolutionContent("content7");
-            solutionService.createSolutionEntity(solutionEntity7);
-            entities.add(solutionEntity7);
-            SolutionEntity solutionEntity8 = new SolutionEntity();
-            solutionEntity1.setSolutionId("8");
-            solutionEntity8.setKeyword("keyword8");
-            solutionEntity8.setRelation(4);
-            solutionEntity8.setSolutionTitle("title8");
-            solutionEntity8.setSolutionContent("content8");
-            solutionService.createSolutionEntity(solutionEntity8);
-            entities.add(solutionEntity8);
-
-            //db연결시 삭제할 부분---------------------------------------------
+            SolutionDetailDTO dto = new SolutionDetailDTO();
+            dto.setSolutionTitle1(solutionDetailEntity.getSolutionTitle1());
+            dto.setSolutionTitle2(solutionDetailEntity.getSolutionTitle2());
+            dto.setSolutionTitle3(solutionDetailEntity.getSolutionTitle3());
+            dto.setSolutionTitle4(solutionDetailEntity.getSolutionTitle4());
+            dto.setSolutionContent1(solutionDetailEntity.getSolutionContent1());
+            dto.setSolutionContent2(solutionDetailEntity.getSolutionContent2());
+            dto.setSolutionContent3(solutionDetailEntity.getSolutionContent3());
+            dto.setSolutionContent4(solutionDetailEntity.getSolutionContent4());
 
 
+            log.info("solutionDetailDTO:{} ",dto.toString());
 
 
-        UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
-        log.info("relation1:{}",userEntity.isRelation1());
-        log.info("relation2:{}",userEntity.isRelation2());
-        log.info("relation3:{}",userEntity.isRelation3());
-        log.info("relation4:{}",userEntity.isRelation4());
+            ResponseListDTO<SolutionDetailDTO> response = ResponseListDTO.<SolutionDetailDTO>builder()
+                    .data(Collections.singletonList(dto))
+                    .build();
 
-            //리스트가 중복적으로 쌓여서 이 부분 수정
-            List<SolutionEntity> solutionEntities =null;
-            solutionEntities  = new ArrayList<>();
-        if (userEntity.isRelation1()) {
-
-            solutionEntities.addAll(solutionService.retrieveByRelation(1));
+            return ResponseEntity.ok().body(response);
         }
-         if (userEntity.isRelation2()) {
-             solutionEntities.addAll(solutionService.retrieveByRelation(2));
+        catch(Exception e) {
+            String error = "Error while fetching solution detail: " + e.getMessage();
+            //return ResponseEntity.badRequest().body(null);
+            //return ResponseEntity.badRequest().body(null);
+            ResponseListDTO response = ResponseListDTO.<SolutionDetailDTO>builder()
+                    .error(error)
+                    .build();
+            return ResponseEntity.badRequest().body(response);
         }
-         if (userEntity.isRelation3()) {
-             solutionEntities.addAll(solutionService.retrieveByRelation(3));
+    }
+    /*
+    @GetMapping("/detail")
+    public ResponseEntity<?> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId) {
+        try {
+            List<SolutionDetailEntity> solutionDetailEntities = new ArrayList<>();
+            log.info("{}" ,requestSolutionId);
+
+            /*
+
+            for (int i = 1; i <= 8; i++) {
+                SolutionDetailEntity mockDetailEntity = new SolutionDetailEntity();
+                mockDetailEntity.setSolutionId(Integer.toString(i));
+                mockDetailEntity.setSolutionTitle1(i + "-mockTitle 1");
+                mockDetailEntity.setSolutionContent1("mockContent 1");
+                mockDetailEntity.setSolutionTitle2(i + "-mockTitle 2");
+                mockDetailEntity.setSolutionContent2("mockContent 2");
+                mockDetailEntity.setSolutionTitle3(i + "-mockTitle 3");
+                mockDetailEntity.setSolutionContent3("mockContent 3");
+                mockDetailEntity.setSolutionTitle4(i + "-mockTitle 4");
+                mockDetailEntity.setSolutionContent4("mockContent 4");
+                solutionDetailEntities.add(mockDetailEntity);
+            }
+*/
+    /*
+
+            // SolutionDetailEntity 객체를 SolutionDetailDTO 객체로 매핑
+            SolutionDetailDTO solutionDetailDTO = new SolutionDetailDTO();
+            // solutionDetailDTO.setSolutionId(requestSolutionId); // 요청한 solutionId 설정
+
+            // requestSolutionId에 해당하는 SolutionDetailEntity를 찾아서 해당 내용을 설정
+            for (SolutionDetailEntity entity : solutionDetailEntities) {
+                log.info("{}",entity);
+                if (entity.getSolutionId().equals(requestSolutionId)) {
+                    solutionDetailDTO.setSolutionTitle1(entity.getSolutionTitle1());
+                    solutionDetailDTO.setSolutionContent1(entity.getSolutionContent1());
+                    solutionDetailDTO.setSolutionTitle2(entity.getSolutionTitle2());
+                    solutionDetailDTO.setSolutionContent2(entity.getSolutionContent2());
+                    solutionDetailDTO.setSolutionTitle3(entity.getSolutionTitle3());
+                    solutionDetailDTO.setSolutionContent3(entity.getSolutionContent3());
+                    solutionDetailDTO.setSolutionTitle4(entity.getSolutionTitle4());
+                    solutionDetailDTO.setSolutionContent4(entity.getSolutionContent4());
+                    // 필요한 title 및 content 속성 설정
+                    break; // 원하는 데이터를 찾았으면 반복 종료
+                }
+            }
+
+     */
+            /*모든 속성을 매핑
+            // SolutionDetailEntity 객체를 SolutionDetailDTO 객체로 매핑
+            List<SolutionDetailDTO> dtos = solutionDetailEntities.stream()
+                    .map(entity -> {
+                        SolutionDetailDTO dto = new SolutionDetailDTO();
+                        dto.setSolutionId(entity.getSolutionId());
+                        dto.setSolutionTitle1(entity.getSolutionTitle1());
+                        dto.setSolutionContent1(entity.getSolutionContent1());
+                        dto.setSolutionTitle2(entity.getSolutionTitle2());
+                        dto.setSolutionContent2(entity.getSolutionContent2());
+                        dto.setSolutionTitle3(entity.getSolutionTitle3());
+                        dto.setSolutionContent3(entity.getSolutionContent3());
+                        dto.setSolutionTitle4(entity.getSolutionTitle4());
+                        dto.setSolutionContent4(entity.getSolutionContent4());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+
+
+            ResponseListDTO<SolutionDetailDTO> response = ResponseListDTO.<SolutionDetailDTO>builder()
+                    .data(Collections.singletonList(solutionDetailDTO))
+                    .build();
+
+            return ResponseEntity.ok().body(response);
         }
-         if (userEntity.isRelation4()) {
-             solutionEntities.addAll(solutionService.retrieveByRelation(4));
+        catch(Exception e) {
+            String error = "Error while fetching solution detail: " + e.getMessage();
+            //return ResponseEntity.badRequest().body(null);
+            //return ResponseEntity.badRequest().body(null);
+            ResponseListDTO response = ResponseListDTO.<SolutionDetailDTO>builder()
+                    .error(error)
+                    .build();
+            return ResponseEntity.badRequest().body(response);
         }
-
-         log.info("entities:{}",solutionEntities);
-        //솔루션 엔티티 저장 -> responsebody로 변경 후 list로 return하도록 수정
-
-        List<SolutionResponseDTO> dtos = solutionEntities.stream()
-                .map(SolutionResponseDTO::new)
-                .collect(Collectors.toList());
+    }
 
 
+             */
+/*
+    @PostMapping("/detail")
+    public ResponseEntity<ResponseListDTO<SolutionDetailDTO>> createSolutionDetail(@RequestBody SolutionDetailDTO solutionDetailDTO) {
+        try {
+            // SolutionDetailDTO를 SolutionDetailEntity로 변환
+            SolutionDetailEntity solutionDetailEntity = new SolutionDetailEntity();
+            solutionDetailEntity.setSolutionId(solutionDetailDTO.getSolutionId());
+            solutionDetailEntity.setSolutionTitle1(solutionDetailDTO.getSolutionTitle1());
+            solutionDetailEntity.setSolutionContent1(solutionDetailDTO.getSolutionContent1());
+            solutionDetailEntity.setSolutionTitle2(solutionDetailDTO.getSolutionTitle2());
+            solutionDetailEntity.setSolutionContent2(solutionDetailDTO.getSolutionContent2());
+            solutionDetailEntity.setSolutionTitle3(solutionDetailDTO.getSolutionTitle3());
+            solutionDetailEntity.setSolutionContent3(solutionDetailDTO.getSolutionContent3());
+            solutionDetailEntity.setSolutionTitle4(solutionDetailDTO.getSolutionTitle4());
+            solutionDetailEntity.setSolutionContent4(solutionDetailDTO.getSolutionContent4());
 
-            ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
+
+            // SolutionDetailEntity를 저장
+            SolutionDetailEntity savedSolutionDetail = solutionService.saveSolutionDetail(solutionDetailEntity);
+
+            List<SolutionDetailEntity> solutionDetailEntities = new ArrayList<>();
+
+            // SolutionDetailEntity 객체를 SolutionDetailDTO 객체로 매핑
+            List<SolutionDetailDTO> dtos = solutionDetailEntities.stream()
+                    .map(entity -> {
+                        SolutionDetailDTO dto = new SolutionDetailDTO();
+                        //dto.setSolutionId(entity.getSolutionId());
+                        dto.setSolutionTitle1(entity.getSolutionTitle1());
+                        dto.setSolutionContent1(entity.getSolutionContent1());
+                        dto.setSolutionTitle2(entity.getSolutionTitle2());
+                        dto.setSolutionContent2(entity.getSolutionContent2());
+                        dto.setSolutionTitle3(entity.getSolutionTitle3());
+                        dto.setSolutionContent3(entity.getSolutionContent3());
+                        dto.setSolutionTitle4(entity.getSolutionTitle4());
+                        dto.setSolutionContent4(entity.getSolutionContent4());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+
+            ResponseListDTO<SolutionDetailDTO> response = ResponseListDTO.<SolutionDetailDTO>builder()
                     .data(dtos)
                     .build();
 
-
             return ResponseEntity.ok().body(response);
-        } catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
-            String error = e.getMessage();
-        ResponseListDTO response = ResponseListDTO.<SolutionResponseDTO>builder()
-                    .error(error).build();
 
-            return ResponseEntity.badRequest().body(response);
-
+        } catch (Exception e) {
+            String error = "Error while saving solution detail: " + e.getMessage();
+            return ResponseEntity.badRequest().body(null);
         }
-    }
+    }*/
+
 }
-
-
- */

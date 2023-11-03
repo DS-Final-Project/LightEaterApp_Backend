@@ -1,15 +1,26 @@
 package com.example.LightEaterApp.Chat.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
+@Table(name="SolutionDetail")
 public class SolutionDetailEntity {
     @Id
-    // private String solutionDetailId;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String solutionId;
     private String solutionTitle1;
     private String solutionContent1;
@@ -20,9 +31,9 @@ public class SolutionDetailEntity {
     private String solutionTitle4;
     private String solutionContent4;
 
-    public String getSolutionTitle1() {
-        return solutionTitle1;
-    }
+
+
+    public String getSolutionTitle1() { return solutionTitle1; }
     public String getSolutionTitle2() {
         return solutionTitle2;
     }

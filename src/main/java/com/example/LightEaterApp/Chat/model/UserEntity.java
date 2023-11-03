@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="UserTable")
+@Table(name="user")
 public class UserEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
