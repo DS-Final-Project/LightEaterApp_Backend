@@ -20,8 +20,8 @@ public class FlaskService {
     private final WebClient webClient;
 
     public FlaskService(WebClient.Builder webClientBuilder) {
-        //this.webClient = webClientBuilder.baseUrl("http://44.231.227.145:5000").build();
-        this.webClient = webClientBuilder.baseUrl("http://172.20.10.6:5000").build();
+        this.webClient = webClientBuilder.baseUrl("http://44.231.227.145:5000").build();
+        //this.webClient = webClientBuilder.baseUrl("http://172.20.10.6:5000").build();
         //this.webClient = webClientBuilder.baseUrl("http://54.188.36.218:5000").build();
         //this.webClient = webClientBuilder.baseUrl("http://172.31.39.250:5000").build();
         }
