@@ -13,7 +13,7 @@ import java.net.URI;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "file")
+@Table(name = "FileTable")
 public class URIEntity {
 
     @Id

@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="chat")
+@Table(name="ChatTable")
 public class ChatEntity {
     @Id
     //chatId는 자동 생성

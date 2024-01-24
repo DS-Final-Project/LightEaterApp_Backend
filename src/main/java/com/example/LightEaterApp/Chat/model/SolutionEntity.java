@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="solution")
+@Table(name="SolutionTable")
 public class SolutionEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
