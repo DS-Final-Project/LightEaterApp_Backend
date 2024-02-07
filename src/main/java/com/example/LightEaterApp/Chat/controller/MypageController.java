@@ -63,10 +63,10 @@ public class MypageController {
 
         }
     }
-    @DeleteMapping("chatResult")
-    public ResponseEntity<?> deleteChat(@RequestBody final String chatId){
+    @DeleteMapping("chatResult/{chatId}")
+    public ResponseEntity<?> deleteChat(@PathVariable("chatId") String requestChatId){
         try {
-            List<ChatEntity> entities = chatService.delete(chatService.retrieveByChatIDByEntity(chatId));
+            List<ChatEntity> entities = chatService.delete(chatService.retrieveByChatIDByEntity(requestChatId));
 
             SelftestResponseBodyDTO response =  SelftestResponseBodyDTO.<ChatUploadRequestBodyDTO>builder()
                     .build();
