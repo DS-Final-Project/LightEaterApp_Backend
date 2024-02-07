@@ -6,6 +6,7 @@ import com.example.LightEaterApp.Chat.dto.mypage.PreviousMypageResponsebodyDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.MypageResponseDTO;
 import com.example.LightEaterApp.Chat.dto.response.ResponseMypageListDTO;
+import com.example.LightEaterApp.Chat.dto.user.SelftestResponseBodyDTO;
 import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.service.ChatService;
@@ -61,6 +62,29 @@ public class MypageController {
             return ResponseEntity.badRequest().body(response);
 
         }
+    }
+    @DeleteMapping("chatResult")
+    public ResponseEntity<?> deleteChat(@RequestBody final String chatId){
+        try {
+            List<ChatEntity> entities = chatService.delete(chatService.retrieveByChatIDByEntity(chatId));
+
+            SelftestResponseBodyDTO response =  SelftestResponseBodyDTO.<ChatUploadRequestBodyDTO>builder()
+                    .build();
+
+            return ResponseEntity.ok().body(response);
+        }
+
+
+        catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
+            String error = e.getMessage();
+
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
+                    .error(error).build();
+
+            return ResponseEntity.badRequest().body(null);
+
+        }
+
     }
     @GetMapping
     public ResponseEntity<?> getMypage(

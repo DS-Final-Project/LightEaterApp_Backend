@@ -92,6 +92,17 @@ public class ChatService {
         return chatRepositoryByEntity.findByChatId(chatId);
     }
 
+    public List<ChatEntity> delete(final ChatEntity entity) {
+        validate(entity);
+        try {
+            repository.delete(entity);
+        } catch (Exception e) {
+            log.error("error deleting entity" , entity.getChatId(), e);
+            throw new RuntimeException("error deleting entity " + entity.getChatId());
+        }
+        return retrieveByUserID(entity.getUserId());
+    }
+
     /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {
 

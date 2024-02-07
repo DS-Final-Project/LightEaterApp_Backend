@@ -185,15 +185,6 @@ public class ChatController {
 
         try {
 
-            UserEntity userEntity = new UserEntity();
-            userEntity.setUserId(null);
-            userEntity.setUserId(email);
-            userEntity.setName("dahee");
-            userEntity.setUserEmail(email);
-            userService.createUserEntity(userEntity);
-            log.info("userEntity:{}", userEntity.toString());
-
-
             Date chatDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
@@ -280,7 +271,7 @@ public class ChatController {
 
 
 
-            //UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
             if (relationValue == 1) {
                 userEntity.setRelation1(true);
 
@@ -339,6 +330,8 @@ public class ChatController {
 
         }
     }
+
+
 /*
     @PostMapping("/file")
     public ResponseEntity<?> uploadChatByFile(

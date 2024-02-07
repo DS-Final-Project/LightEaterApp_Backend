@@ -106,6 +106,8 @@ public class GoogleController {
 
             if(resultJson != null) {
                 GoogleLoginDTO userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDTO>() {});
+                boolean loginStatus;
+
 
                 if(userService.retrieveByUserEmailByEntity(userInfoDto.getEmail())==null) {
                     UserEntity userEntity = new UserEntity();
@@ -120,13 +122,18 @@ public class GoogleController {
                     log.info("sucess");
                     log.info("token:{}", jwtToken);
                     log.info("userInfoDto:{}", userInfoDto.toString());
+                    loginStatus = false;
+
                 }
                 else {
                     log.info("이미 가입되어있는 회원입니다.");
-                }
-                GoogleLoginResponseDTO response = GoogleLoginResponseDTO.builder()
-                        .build();
+                    loginStatus = true;
 
+                }
+
+                GoogleLoginResponseDTO response = GoogleLoginResponseDTO.builder()
+                        .loginStatus(loginStatus)
+                        .build();
                 return ResponseEntity.ok().body(response);
             }
             else {

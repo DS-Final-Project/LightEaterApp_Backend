@@ -1,4 +1,4 @@
-package com.example.LightEaterApp.login.SocialLoginTest.dto;
+package com.example.LightEaterApp.Chat.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class GoogleLoginResponseDTO {
-    private String error;
-    private boolean loginStatus;
-
+public class selfTestPageLoginDTO {
+   private String loginStatus;
 }
