@@ -93,7 +93,7 @@ public class ChatService {
     }
 
     public List<ChatEntity> delete(final ChatEntity entity) {
-        validate(entity);
+        //validate(entity);
         try {
             repository.delete(entity);
         } catch (Exception e) {
