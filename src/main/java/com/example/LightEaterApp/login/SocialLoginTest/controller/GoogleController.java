@@ -106,7 +106,7 @@ public class GoogleController {
 
             if(resultJson != null) {
                 GoogleLoginDTO userInfoDto = objectMapper.readValue(resultJson, new TypeReference<GoogleLoginDTO>() {});
-                boolean loginStatus;
+                boolean loginStatus = false;
 
 
                 if(userService.retrieveByUserEmailByEntity(userInfoDto.getEmail())==null) {
@@ -123,11 +123,14 @@ public class GoogleController {
                     log.info("token:{}", jwtToken);
                     log.info("userInfoDto:{}", userInfoDto.toString());
                     loginStatus = false;
+                    log.info("loginStatus:{}", loginStatus);
 
                 }
                 else {
                     log.info("이미 가입되어있는 회원입니다.");
                     loginStatus = true;
+                    log.info("loginStatus:{}", loginStatus);
+
 
                 }
 
