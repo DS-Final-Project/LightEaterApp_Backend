@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -47,6 +48,21 @@ public class UserService {
 
 
 
+    }
+    public List<UserEntity> update(final UserEntity entity){
+
+        validate(entity);
+
+        final Optional<UserEntity> original = repository.findById(entity.getUserId());
+
+        original.ifPresent(user ->{
+            user.setRelation1(entity.isRelation1());
+            user.setRelation2(entity.isRelation2());
+            user.setRelation3(entity.isRelation3());
+            user.setRelation4(entity.isRelation4());
+            repository.save(user);
+        });
+        return repository.findByUserEmail(entity.getUserEmail());
     }
     public UserEntity retrieveByUserEmailByEntity(final String email) {
 
