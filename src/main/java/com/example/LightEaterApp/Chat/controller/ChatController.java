@@ -104,19 +104,22 @@ public class ChatController {
 
 
             //!!모든값 임의설정 추후 ai파트와 연결시 가져올 값
-            chatEntity.setResultNum(81);
+            //chatEntity.setResultNum(81);
 
-            chatEntity.setDoubtText1("이게 노력하는사람 모습이가");
-            chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
+            //chatEntity.setDoubtText1("이게 노력하는사람 모습이가");
+            //chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
             //chatEntity.setResultNum((int) (Math.random() * 100));
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+            log.info("email:{}", email);
+            log.info("userEntity:{}", userEntity);
+
             log.info("user테이블 relation 변경전");
             if (relationValue == 1) {
                 userEntity.setRelation1(true);
                 log.info("relation1 설정");
             } else if (relationValue == 2) {
                 userEntity.setRelation2(true);
-                log.info("relation 설정");
+                log.info("relation2 설정");
 
             } else if (relationValue == 3) {
                 userEntity.setRelation3(true);
