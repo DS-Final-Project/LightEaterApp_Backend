@@ -130,6 +130,8 @@ public class ChatController {
                 log.info("relation4 설정");
 
             }
+            userService.update(userEntity);
+            log.info("update");
             log.info("relation 설정 후 userEntity:{}", userEntity);
 
 
