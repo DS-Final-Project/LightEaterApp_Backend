@@ -130,7 +130,7 @@ public class ChatController {
                 log.info("relation4 설정");
 
             }
-
+            log.info("relation 설정 후 userEntity:{}", userEntity);
 
 
 
