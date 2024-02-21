@@ -110,15 +110,22 @@ public class ChatController {
             chatEntity.setDoubtText2("본인이 존댓말한건 생각안하고 내기분이 나빠보인다니");
             //chatEntity.setResultNum((int) (Math.random() * 100));
             UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
+            log.info("user테이블 relation 변경전");
             if (relationValue == 1) {
                 userEntity.setRelation1(true);
-
+                log.info("relation1 설정");
             } else if (relationValue == 2) {
                 userEntity.setRelation2(true);
+                log.info("relation 설정");
+
             } else if (relationValue == 3) {
                 userEntity.setRelation3(true);
+                log.info("relation3 설정");
+
             } else if (relationValue == 4) {
                 userEntity.setRelation4(true);
+                log.info("relation4 설정");
+
             }
 
 
