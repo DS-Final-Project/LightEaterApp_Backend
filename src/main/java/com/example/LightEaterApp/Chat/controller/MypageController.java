@@ -67,9 +67,11 @@ public class MypageController {
     public ResponseEntity<?> deleteChat(@PathVariable("chatId") String requestChatId){
         try {
             List<ChatEntity> entities = chatService.delete(chatService.retrieveByChatIDByEntity(requestChatId));
+            log.info("지난분석 리스트 entities:{}",entities);
 
             SelftestResponseBodyDTO response =  SelftestResponseBodyDTO.<ChatUploadRequestBodyDTO>builder()
                     .build();
+            log.info("지난 분석 리스트 response:{}", response);
 
             return ResponseEntity.ok().body(response);
         }
