@@ -78,6 +78,7 @@ public class FlaskService {
 
             return String.join("\n", cleanedLines);
         }
+       /*
         public static List<String> extractConversations(String text) {
             // 정규표현식 패턴
             Pattern pattern = Pattern.compile(": (.*?)\\n");
@@ -98,6 +99,30 @@ public class FlaskService {
 
             return conversations;
         }
+
+*/
+       public static List<String> extractConversations(String text) {
+           // 정규표현식 패턴
+           //Pattern pattern = Pattern.compile(": (.*?)\\n");
+           Pattern pattern = Pattern.compile(": (.*?)\\r?\\n");
+
+
+           // 정규표현식을 사용하여 대화 추출
+           Matcher matcher = pattern.matcher(text);
+           List<String> conversations = new ArrayList<>();
+
+           while (matcher.find()) {
+               String conversation = matcher.group(1);
+               conversations.add(conversation);
+           }
+
+           // 첫 번째 요소 삭제
+           if (conversations.size() > 0) {
+               conversations.remove(0);
+           }
+
+           return conversations;
+       }
 
         public static class Point {
             public int x, y;
