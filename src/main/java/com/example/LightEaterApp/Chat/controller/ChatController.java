@@ -200,7 +200,7 @@ public class ChatController {
             Date chatDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
             String formattedDate = dateFormat.format(chatDate);
-            log.info("date:{}",formattedDate);
+            log.info("date:{}", formattedDate);
 
             log.info("chatEntity생성전");
 
@@ -216,7 +216,7 @@ public class ChatController {
             FlaskResponseDTO flaskResponseDTO = new FlaskResponseDTO();
 
 
-
+/*
             try {
                 //multipartfile text파일로 저장.
                 InputStream initialStream = file.getInputStream();
@@ -249,6 +249,10 @@ public class ChatController {
                 }
                 log.info("3");
 
+
+
+
+
                 //자바에서 텍스트 변환
                 List<String> fileContent_list = extractConversations(line);
                 //System.out.println(fileContent_list);
@@ -275,11 +279,44 @@ public class ChatController {
                 return ResponseEntity.badRequest().body("Failed to upload file");
             }
 
+ */
+            try {
+            String fileContent = new String(file.getBytes(), "UTF-8");
+            // 파일 내용을 문자열로 저장 또는 원하는 작업 수행
+            System.out.println("fileContent: \n" + fileContent);
+
+
+            //자바에서 텍스트 변환
+            List<String> fileContent_list = extractConversations(fileContent);
+            System.out.println("filecontent_list:  " + fileContent_list);
+
+            //리스트를 인공지능에 보내줄 string변수로 바꾸기.
+            String result = String.join("\n", fileContent_list);
+            System.out.println("resultText:-------\n" + result);
+
+            //flask에 보내기(result)
+            flaskResponseDTO = flaskService.sendChatWordsByFile(result).block();
+            log.info("flaskService완료");
+
+            chatEntity.setChatData(result);
+            log.info("resultText:{}", result);
+            log.info("relation:{}", relation);
+            log.info("relationValue:{}", relationValue);
+           // return ResponseEntity.ok("File uploaded successfully");
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Failed to upload file");
+        }
+
+
+
+
+
             chatEntity.setRelation(relationValue);
             chatEntity.setUserId(email);
             chatEntity.setChatDate(formattedDate);
-
-
 
 
 
