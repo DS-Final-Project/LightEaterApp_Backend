@@ -21,6 +21,8 @@ public class SolutionDetailEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String Id;
+
     private String solutionId;
     private String solutionTitle1;
     private String solutionContent1;

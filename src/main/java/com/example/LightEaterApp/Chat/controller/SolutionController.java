@@ -162,6 +162,7 @@ public class SolutionController {
             log.info("solutionDetailDTO:{} ",dto.toString());
 
 
+
             ResponseListDTO<SolutionDetailDTO> response = ResponseListDTO.<SolutionDetailDTO>builder()
                     .data(Collections.singletonList(dto))
                     .build();
