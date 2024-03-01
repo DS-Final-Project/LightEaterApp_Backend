@@ -21,7 +21,7 @@ public class SolutionDetailEntity {
     @Id
     //@GeneratedValue(generator = "system-uuid")
     //@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String Id;
+    private String detailId;
 
     private String solutionId;
     private String solutionTitle1;
