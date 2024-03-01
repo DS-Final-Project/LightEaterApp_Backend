@@ -145,6 +145,7 @@ public class SolutionController {
     @GetMapping("/detail")
     public ResponseEntity<?> getSolutionDetail(@RequestParam("solutionId") String requestSolutionId) {
         try {
+            log.info("solutionId:{}", requestSolutionId);
 
             SolutionDetailEntity solutionDetailEntity = solutionService.retrieveSolutionDetailByEntity(requestSolutionId);
 
