@@ -19,8 +19,8 @@ import javax.persistence.Table;
 @Table(name="SolutionDetail")
 public class SolutionDetailEntity {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    //@GeneratedValue(generator = "system-uuid")
+    //@GenericGenerator(name="system-uuid", strategy = "uuid")
     private String Id;
 
     private String solutionId;
