@@ -53,7 +53,7 @@ public class SolutionController {
                 solutionEntities.add(solutionEntity1);
 
                 SolutionEntity solutionEntity2 = new SolutionEntity();
-                solutionEntity1.setSolutionId("2");
+                solutionEntity2.setSolutionId("2");
                 solutionEntity2.setKeyword("집착");
                 solutionEntity2.setRelation(1);
                 solutionEntity2.setSolutionTitle("대처 방안을 \n찾고 계시나요?");
@@ -112,7 +112,7 @@ public class SolutionController {
                 solutionService.createSolutionEntity(solutionEntity7);
                 solutionEntities.add(solutionEntity7);
                 SolutionEntity solutionEntity8 = new SolutionEntity();
-                solutionEntity7.setSolutionId("8");
+                solutionEntity8.setSolutionId("8");
                 solutionEntity8.setKeyword("통제");
                 solutionEntity8.setRelation(4);
                 solutionEntity8.setSolutionTitle("나에 대한 확신이 없을 때 \n어떻게 해야 할까요?");
