@@ -2,41 +2,35 @@ package com.example.LightEaterApp.Chat.controller;
 
 import com.example.LightEaterApp.Chat.dto.chat.ChatUploadRequestBodyDTO;
 import com.example.LightEaterApp.Chat.dto.response.ChatResponseDTO;
-import com.example.LightEaterApp.Chat.dto.user.SelftestRequestBodyDTO;
-import com.example.LightEaterApp.Chat.dto.user.SelftestResponseBodyDTO;
-import com.example.LightEaterApp.Chat.model.UserEntity;
+import com.example.LightEaterApp.Chat.dto.user.WithdrawResponseBodyDTO;
+import com.example.LightEaterApp.Chat.service.ChatService;
 import com.example.LightEaterApp.Chat.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RestController
-@RequestMapping("selftest")
+
 public class UserController {
-
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private ChatService chatService;
 
-    @PostMapping("/post")
-    public ResponseEntity<?> selftestResult(@RequestHeader("email") String email, @RequestBody SelftestRequestBodyDTO selftestRequestBodyDTO){
+    @GetMapping("/withdraw")
+    public ResponseEntity<?> selftestResult(@RequestHeader("email") String email){
         try {
-            UserEntity userEntity = userService.retrieveByUserEmailByEntity(email);
-            userEntity.setAvoidScore((float)(Math.floor(selftestRequestBodyDTO.getAvoidScore() * 100) / 100.0));
-            userEntity.setAnxietyScore((float)(Math.floor(selftestRequestBodyDTO.getAnxietyScore()*100)/100.0));
-            userEntity.setTestType(selftestRequestBodyDTO.getTestType());
+            userService.deletebyUserEmail(email);
+            chatService.deleteByEmail(email);
 
 
-            List<UserEntity> userEntities = userService.createUserEntity(userEntity);
-
-            SelftestResponseBodyDTO response =  SelftestResponseBodyDTO.<ChatUploadRequestBodyDTO>builder()
+            WithdrawResponseBodyDTO response = WithdrawResponseBodyDTO.builder()
+                    .status(HttpStatus.OK.value())
                     .build();
-
-
-            log.info("연동 성공");
+            //log.info("");
             return ResponseEntity.ok().body(response);
 
         }
@@ -44,15 +38,15 @@ public class UserController {
 
 
 
-     catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
-        String error = e.getMessage();
+        catch(Exception e) {                                      //예외 있는 경우 dto 대신 error 메세지 넣어 리턴
+            String error = e.getMessage();
 
-         ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
-                .error(error).build();
+            ChatResponseDTO response = ChatResponseDTO.<ChatUploadRequestBodyDTO>builder()
+                    .error(error).build();
 
-        return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(null);
 
-    }
+        }
     }
 }
-
+}

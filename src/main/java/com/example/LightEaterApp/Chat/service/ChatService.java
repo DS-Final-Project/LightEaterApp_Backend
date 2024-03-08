@@ -79,6 +79,12 @@ public class ChatService {
 
         return repository.findByUserId(userId);
     }
+    public ChatEntity retrieveByUserIDByEntity(final String userId) {
+
+        //validate(entity);
+
+        return chatRepositoryByEntity.findByUserId(userId);
+    }
     public List<ChatEntity> retrieveByChatID(final String chatId) {
 
         //validate(entity);
@@ -102,7 +108,16 @@ public class ChatService {
         }
         return retrieveByUserID(entity.getUserId());
     }
-
+    public void deleteByEmail(final String email) {
+        //validate(entity);
+        try {
+            repository.delete(retrieveByUserIDByEntity(email));
+        } catch (Exception e) {
+            log.error("error deleting entity" , retrieveByUserIDByEntity(email).getChatId(), e);
+            throw new RuntimeException("error deleting entity " + retrieveByUserIDByEntity(email).getChatId());
+        }
+        //return retrieveByUserID(retrieveByUserIDByEntity(email).getUserId());
+    }
     /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {
 

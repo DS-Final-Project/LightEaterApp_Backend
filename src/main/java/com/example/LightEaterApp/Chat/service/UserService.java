@@ -1,6 +1,7 @@
 package com.example.LightEaterApp.Chat.service;
 
 
+import com.example.LightEaterApp.Chat.model.ChatEntity;
 import com.example.LightEaterApp.Chat.model.UserEntity;
 
 import com.example.LightEaterApp.Chat.persistence.UserRepository;
@@ -92,6 +93,17 @@ public class UserService {
         return repository.findByUserId(entity.getUserId());
     }
 */
+public void deletebyUserEmail(final String email) {
+    //validate(entity);
+    try {
+        repository.delete(retrieveByUserEmailByEntity(email));
+    } catch (Exception e) {
+        log.error("error deleting entity" , retrieveByUserEmailByEntity(email).getUserId(), e);
+        throw new RuntimeException("error deleting entity " + retrieveByUserEmailByEntity(email).getUserId());
+    }
+    //return retrieveByUserId(retrieveByUserEmailByEntity(email).getUserId());
+    log.info("삭제 완료:{}",retrieveByUserEmailByEntity(email).toString());
+}
 
     private void validate(final UserEntity entity) {
         if(entity == null) {
