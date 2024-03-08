@@ -17,6 +17,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("mypage")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,7 +28,9 @@ public class UserController {
     public ResponseEntity<?> selftestResult(@RequestHeader("email") String email){
         try {
             List<UserEntity> userEntities = userService.deletebyUserEmail(email);
+            log.info("삭제 후 userEntities:{}",userEntities);
             List<ChatEntity> chatEntities = chatService.deleteByEmail(email);
+            log.info("삭제 후 chatEntities:{}",chatEntities);
             log.info("삭제 완료");
 
             WithdrawResponseBodyDTO response = WithdrawResponseBodyDTO.builder()
