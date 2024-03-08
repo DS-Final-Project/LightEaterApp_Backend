@@ -105,7 +105,7 @@ public class UserService {
         return retrieveByUserId(retrieveByUserEmailByEntity(email).getUserId());
     }
 
-public void deletebyUserEmail(final String email) {
+public List<UserEntity> deletebyUserEmail(final String email) {
     //validate(entity);
     try {
         repository.delete(retrieveByUserEmailByEntity(email));
@@ -113,8 +113,8 @@ public void deletebyUserEmail(final String email) {
         log.error("error deleting entity" , retrieveByUserEmailByEntity(email).getUserId(), e);
         throw new RuntimeException("error deleting entity " + retrieveByUserEmailByEntity(email).getUserId());
     }
-    //return retrieveByUserId(retrieveByUserEmailByEntity(email).getUserId());
     log.info("삭제 완료:{}",retrieveByUserEmailByEntity(email).toString());
+    return retrieveByUserId(retrieveByUserEmailByEntity(email).getUserId());
 }
 
     private void validate(final UserEntity entity) {

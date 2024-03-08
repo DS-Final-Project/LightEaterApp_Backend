@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping("/withdraw")
     public ResponseEntity<?> selftestResult(@RequestHeader("email") String email){
         try {
-            List<UserEntity> userEntities = userService.delete(email);
+            List<UserEntity> userEntities = userService.deletebyUserEmail(email);
             List<ChatEntity> chatEntities = chatService.deleteByEmail(email);
             log.info("삭제 완료");
 
