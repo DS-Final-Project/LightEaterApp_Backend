@@ -93,6 +93,18 @@ public class UserService {
         return repository.findByUserId(entity.getUserId());
     }
 */
+
+    public List<UserEntity> delete(final String email) {
+        //validate(entity);
+        try {
+            repository.delete(retrieveByUserEmailByEntity(email));
+        } catch (Exception e) {
+            log.error("error deleting entity" , retrieveByUserEmailByEntity(email).getUserId(), e);
+            throw new RuntimeException("error deleting entity " + retrieveByUserEmailByEntity(email).getUserId());
+        }
+        return retrieveByUserId(retrieveByUserEmailByEntity(email).getUserId());
+    }
+
 public void deletebyUserEmail(final String email) {
     //validate(entity);
     try {

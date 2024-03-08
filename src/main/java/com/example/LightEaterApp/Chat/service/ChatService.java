@@ -108,7 +108,7 @@ public class ChatService {
         }
         return retrieveByUserID(entity.getUserId());
     }
-    public void deleteByEmail(final String email) {
+    public List<ChatEntity> deleteByEmail(final String email) {
         //validate(entity);
         try {
             repository.delete(retrieveByUserIDByEntity(email));
@@ -117,7 +117,7 @@ public class ChatService {
             log.error("error deleting entity" , retrieveByUserIDByEntity(email).getChatId(), e);
             throw new RuntimeException("error deleting entity " + retrieveByUserIDByEntity(email).getChatId());
         }
-        //return retrieveByUserID(retrieveByUserIDByEntity(email).getUserId());
+        return retrieveByUserID(retrieveByUserIDByEntity(email).getUserId());
     }
     /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {
