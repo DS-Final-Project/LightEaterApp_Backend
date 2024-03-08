@@ -111,13 +111,17 @@ public class ChatService {
     public List<ChatEntity> deleteByEmail(final String email) {
         //validate(entity);
         try {
-            repository.delete(retrieveByUserIDByEntity(email));
-            log.info("삭제엔티티:{}",retrieveByUserIDByEntity(email));
+            log.info("chatService삭제");
+            List<ChatEntity> entities = retrieveByUserID(email);
+            log.info("entities",entities);
+            repository.deleteAll(entities);
+            log.info("삭제엔티티:{}",entities);
+            return retrieveByUserID(retrieveByUserIDByEntity(email).getUserId());
         } catch (Exception e) {
             log.error("error deleting entity" , retrieveByUserIDByEntity(email).getChatId(), e);
             throw new RuntimeException("error deleting entity " + retrieveByUserIDByEntity(email).getChatId());
         }
-        return retrieveByUserID(retrieveByUserIDByEntity(email).getUserId());
+
     }
     /*
     public List<ChatEntity> retrieve(final ChatEntity entity) {

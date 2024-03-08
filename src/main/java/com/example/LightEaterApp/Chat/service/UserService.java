@@ -7,6 +7,7 @@ import com.example.LightEaterApp.Chat.model.UserEntity;
 import com.example.LightEaterApp.Chat.persistence.UserRepository;
 import com.example.LightEaterApp.Chat.persistence.UserRepositoryByEntity;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -108,13 +109,18 @@ public class UserService {
 public List<UserEntity> deletebyUserEmail(final String email) {
     //validate(entity);
     try {
-        repository.delete(retrieveByUserEmailByEntity(email));
+        log.info("userService1");
+        UserEntity entity = retrieveByUserEmailByEntity(email);
+        log.info("userService entity:{}",entity);
+        repository.delete(entity);
+        log.info("삭제 완료:{}",entity.toString());
+
+        return retrieveByUserId(entity.getUserId());
     } catch (Exception e) {
         log.error("error deleting entity" , retrieveByUserEmailByEntity(email).getUserId(), e);
         throw new RuntimeException("error deleting entity " + retrieveByUserEmailByEntity(email).getUserId());
     }
-    log.info("삭제 완료:{}",retrieveByUserEmailByEntity(email).toString());
-    return retrieveByUserId(retrieveByUserEmailByEntity(email).getUserId());
+
 }
 
     private void validate(final UserEntity entity) {
