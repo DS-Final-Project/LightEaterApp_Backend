@@ -111,11 +111,15 @@ public List<UserEntity> deletebyUserEmail(final String email) {
     try {
         log.info("userService1 email{}",email);
         UserEntity entity = retrieveByUserEmailByEntity(email);
-        log.info("userService entity:{}",entity);
-        repository.delete(entity);
-        log.info("삭제 완료:{}",entity.toString());
-
+        if(entity != null) {
+            log.info("userService entity:{}", entity);
+            repository.delete(entity);
+            log.info("삭제 완료:{}", entity.toString());
+            return retrieveByUserId(entity.getUserId());
+        }
         return retrieveByUserId(entity.getUserId());
+
+
     } catch (Exception e) {
         log.error("error deleting entity" , retrieveByUserEmailByEntity(email).getUserId(), e);
         throw new RuntimeException("error deleting entity " + retrieveByUserEmailByEntity(email).getUserId());

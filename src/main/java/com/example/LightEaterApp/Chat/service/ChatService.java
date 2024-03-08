@@ -114,11 +114,14 @@ public class ChatService {
             log.info("chatService삭제");
             List<ChatEntity> entities = retrieveByUserID(email);
             log.info("entities{}",entities);
-            for (ChatEntity entity : entities) {
-                repository.delete(entity);
-            }
+            if (entities != null) {
+                for (ChatEntity entity : entities) {
+                    repository.delete(entity);
+                }
+                log.info("삭제엔티티:{}",entities);
+                return retrieveByUserID(email);
 
-            log.info("삭제엔티티:{}",entities);
+            }
 
             log.info("deleteByEmail{} ",retrieveByUserIDByEntity(email).getUserId());
             return retrieveByUserID(email);
