@@ -25,12 +25,12 @@ public class UserController {
         try {
             userService.deletebyUserEmail(email);
             chatService.deleteByEmail(email);
+            log.info("삭제 완료");
 
 
             WithdrawResponseBodyDTO response = WithdrawResponseBodyDTO.builder()
                     .status(HttpStatus.OK.value())
                     .build();
-            //log.info("");
             return ResponseEntity.ok().body(response);
 
         }

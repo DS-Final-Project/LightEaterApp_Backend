@@ -112,6 +112,7 @@ public class ChatService {
         //validate(entity);
         try {
             repository.delete(retrieveByUserIDByEntity(email));
+            log.info("삭제엔티티:{}",retrieveByUserIDByEntity(email));
         } catch (Exception e) {
             log.error("error deleting entity" , retrieveByUserIDByEntity(email).getChatId(), e);
             throw new RuntimeException("error deleting entity " + retrieveByUserIDByEntity(email).getChatId());
