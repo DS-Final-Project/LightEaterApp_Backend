@@ -109,7 +109,7 @@ public class UserService {
 public List<UserEntity> deletebyUserEmail(final String email) {
     //validate(entity);
     try {
-        log.info("userService1");
+        log.info("userService1 email{}",email);
         UserEntity entity = retrieveByUserEmailByEntity(email);
         log.info("userService entity:{}",entity);
         repository.delete(entity);
