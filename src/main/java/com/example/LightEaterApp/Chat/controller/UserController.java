@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private ChatService chatService;
 
-    @GetMapping("/withdraw")
+    @DeleteMapping("/withdraw")
     public ResponseEntity<?> selftestResult(@RequestHeader("email") String email){
         try {
             List<UserEntity> userEntities = userService.deletebyUserEmail(email);
